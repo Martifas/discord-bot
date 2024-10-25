@@ -1,9 +1,14 @@
-/* eslint-disable */
 import path from 'node:path'
+import { defineConfig } from 'vite';
 
-export default {
+// https://vitejs.dev/config/
+export default defineConfig({
   test: {
+    environment: 'node',
     globals: true,
+    coverage: {
+      provider: 'v8',
+    },
   },
   resolve: {
     alias: {
@@ -11,4 +16,4 @@ export default {
       '@tests': path.resolve(__dirname, './tests'),
     },
   },
-};
+});
