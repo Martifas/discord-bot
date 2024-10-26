@@ -10,6 +10,7 @@
     "dev": "tsx watch src",
     "lint": "eslint ./src --ext .js,.jsx,.ts,.tsx",
     "migrate:latest": "tsx src/database/migrate/bin",
+    "insert": "tsx src/database/utils/createDatabaseEntry",
     "gen:types": "kysely-codegen --camel-case --dialect sqlite --out-file src/database/types.ts",
     "test": "vitest",
     "coverage": "vitest run --coverage"
