@@ -1,6 +1,5 @@
 import 'dotenv/config'
-import axios from 'axios'
-import { Client, GatewayIntentBits, Message } from 'discord.js'
+import { Client, GatewayIntentBits } from 'discord.js'
 
 let clientInstance: Client | null = null
 
@@ -13,20 +12,6 @@ export default async () => {
       GatewayIntentBits.GuildMessages,
       GatewayIntentBits.MessageContent,
     ],
-  })
-
-  client.on('messageCreate', async (message: Message) => {
-    if (message.content === 'ping') {
-      await message.reply({
-        content: 'pong',
-      })
-    } else if (message.content === 'quote') {
-      const resp = await axios.get('https://zenquotes.io/api/random/')
-      const quote = resp.data[0].q
-      await message.reply({
-        content: quote,
-      })
-    }
   })
 
   try {
