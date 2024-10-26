@@ -29,7 +29,7 @@ if (!isValidTable(table)) {
 const db = createDatabase(process.env.DATABASE_URL)
 
 try {
-  const result = await db.insertInto(table).values({ title }).executeTakeFirst()
+  const result = await db.insertInto(table).values(title).executeTakeFirst()
 
   console.log(
     `Successfully inserted into ${table}. Insert ID: ${result.insertId}`

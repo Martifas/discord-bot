@@ -9,11 +9,19 @@ export type Generated<T> = T extends ColumnType<infer S, infer I, infer U>
   ? ColumnType<S, I | undefined, U>
   : ColumnType<T, T | undefined, T>;
 
+export interface Message {
+  id: Generated<number>;
+  message: string;
+  sprintCode: string;
+  username: string;
+}
+
 export interface Sprint {
   id: Generated<number>;
   title: string;
 }
 
 export interface DB {
+  message: Message;
   sprint: Sprint;
 }
