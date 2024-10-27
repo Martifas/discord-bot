@@ -2,8 +2,7 @@ import 'dotenv/config'
 import { Router, Request } from 'express'
 import type { Database } from '@/database'
 import buildRepository from './repository'
-import { getClient } from '../bot'
-import { TextChannel, type Client } from 'discord.js'
+import sendMessage from '../bot/sendMessage'
 
 export default (db: Database) => {
   const router = Router()
@@ -11,7 +10,7 @@ export default (db: Database) => {
   router.post('/', async (req: Request, res: any) => {
     try {
       const { result, message } = await messages.create(req.body)
-      await randomFunction(message)
+      await sendMessage(message)
       if (!result) {
         return res.status(500).json({
           error: 'Failed to create message',
@@ -26,26 +25,4 @@ export default (db: Database) => {
     }
   })
   return router
-}
-const postMessage = async (
-  client: Client,
-  message: string,
-  targetChannel: string
-) => {
-  const channel = await client.channels.fetch(targetChannel)
-  if (channel instanceof TextChannel) {
-    await channel.send(message)
-  } else {
-    console.log('Channel is not a text channel!')
-  }
-}
-const randomFunction = async (message: string) => {
-  const client = getClient()
-  const GENERAL_CHANNEL = process.env.GENERAL_CHANNEL
-  if (!GENERAL_CHANNEL) {
-    throw new Error('GENERAL_CHANNEL must be defined in environment variables')
-  }
-  if (client) {
-    await postMessage(client, message, GENERAL_CHANNEL)
-  }
 }
