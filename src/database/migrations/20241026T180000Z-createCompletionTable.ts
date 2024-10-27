@@ -10,5 +10,5 @@ export async function up(db: Kysely<SqliteDatabase>) {
 }
 
 export async function down(db: Kysely<SqliteDatabase>) {
-  await db.schema.dropTable('message').execute()
+  await db.schema.dropTable('completion').execute()
 }

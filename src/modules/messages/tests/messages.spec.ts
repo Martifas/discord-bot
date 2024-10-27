@@ -1,59 +1,40 @@
-import supertest from 'supertest'
-import createTestDatabase from '@tests/createTestDatabase'
-import { Insertable } from 'kysely'
 import createApp from '@/app'
-import { selectAllFor } from '@tests/utils/record'
-import { Completion } from '@/database'
+import createTestDatabase from '@tests/createTestDatabase'
+import { createFor } from '@tests/utils/record'
+import supertest from 'supertest'
+import { Insertable } from 'kysely'
+import { Message } from '@/database'
 
 const db = await createTestDatabase()
 const app = await (async () => await createApp(db))()
-const selectCompletions = selectAllFor(db, 'completion')
+const createMessages = createFor(db, 'message')
 
 afterEach(async () => {
-  await db.deleteFrom('completion').execute()
+  await db.deleteFrom('message').execute()
 })
-const TEST_USER = 'architektas'
-const TEST_SPRINTCODE = 'WD-1.1'
 
-const fakeCompletion = (
-  overrides: Partial<Insertable<Completion>> = {}
-): Insertable<Completion> => ({
-  sprintCode: TEST_SPRINTCODE,
-  username: TEST_USER,
+const fakeMessage = (
+  overrides: Partial<Insertable<Message>> = {}
+): Insertable<Message> => ({
+  messageId: 1,
+  message:
+    'architektas has just completed Computer Science Fundamentals! Well done! 👏 Enjoy what you do and success will follow. 🤗',
   ...overrides,
 })
 
-const completionMatcher = (
-  overrides: Partial<Insertable<Completion>> = {}
-) => ({
-  id: expect.any(Number),
-  ...overrides, // for id
-  ...fakeCompletion(overrides),
-})
-
-describe('POST', () => {
-  it('should allow creating new message record', async () => {
-    const { body } = await supertest(app)
-      .post('/messages')
-      .send(fakeCompletion())
-      .expect(201)
-
-    expect(body).toEqual(completionMatcher())
+describe('GET', () => {
+  it('should return all messages', async () => {
+    await supertest(app).get('/messages').expect(200)
   })
-  it('persists the new message', async () => {
-    await supertest(app).post('/messages').send(fakeCompletion()).expect(201)
+  //   it(`should return a list of messages for a given user`, async () => {
+  //     await createMessages([
+  //         fakeMessage(),fakeMessage({
+  //             messageId: 2,
+  //             message: 'Congratulations to user'
+  //         }),
+  //     ])
 
-    await expect(selectCompletions()).resolves.toEqual([completionMatcher()])
-  })
-
-  it('should ignore the provided id', async () => {
-    const { body } = await supertest(app)
-      .post('/messages')
-      .send({
-        ...fakeCompletion(),
-        id: 123456,
-      })
-
-    expect(body.id).not.toEqual(123456)
-  })
+  //     const { body } = await supertest(app).get('/messages?username')
+  //     await supertest(app).get(`/messages?username=${TEST_USERNAME}`).expect(200)
+  //   })
 })

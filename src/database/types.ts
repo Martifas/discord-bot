@@ -15,6 +15,11 @@ export interface Completion {
   username: string;
 }
 
+export interface Message {
+  message: string;
+  messageId: number;
+}
+
 export interface Sprint {
   id: Generated<number>;
   sprintCode: string;
@@ -23,5 +28,6 @@ export interface Sprint {
 
 export interface DB {
   completion: Completion;
+  message: Message;
   sprint: Sprint;
 }
