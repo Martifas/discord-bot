@@ -1,5 +1,5 @@
 import supertest from 'supertest'
-import createTestDatabase from '@tests/createTestDatabase'
+import createTestDatabase from '@tests/utils/createTestDatabase'
 import { Insertable } from 'kysely'
 import createApp from '@/app'
 import { selectAllFor } from '@tests/utils/record'
