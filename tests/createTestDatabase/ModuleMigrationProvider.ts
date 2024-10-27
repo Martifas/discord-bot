@@ -11,12 +11,11 @@ export default class ModuleMigrationProvider implements MigrationProvider {
     // @ts-ignore
     const migrations: Record<string, Migration> = import.meta.glob(
       // hard-coded due to how import.meta.glob works
-      '../../../src/database/migrations/**.ts',
+      '../../src/database/migrations/**.ts',
       {
         eager: true,
       }
     )
-
     return migrations
   }
 }
