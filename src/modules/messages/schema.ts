@@ -9,7 +9,6 @@ const insertable = z.object({
   sprintCode: z
     .string()
     .min(1, { message: 'Sprint code must be non-empty string' }),
-  message: z.string().min(1, { message: 'Message must be non-empty string' }),
 })
 
 export const parseInsertable = (record: unknown) => insertable.parse(record)

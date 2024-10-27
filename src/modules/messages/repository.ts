@@ -1,9 +1,10 @@
 import 'dotenv/config'
 import type { Insertable, Selectable } from 'kysely'
-import type { Message, Database } from '@/database'
+import type { Completion, Database } from '@/database'
 import { getClient } from '../bot'
-const TABLE = 'message'
-type Row = Message
+
+const TABLE = 'completion'
+type Row = Completion
 type RowWithoutId = Omit<Row, 'id'>
 type RowInsert = Insertable<RowWithoutId>
 type RowSelect = Selectable<Row>
@@ -19,21 +20,25 @@ interface CreateResult {
 
 export default (db: Database) => ({
   async create(record: RowInsert): Promise<CreateResult> {
-    // Store message without Discord mentions for DB
-    const messageDB = `${record.username} has completed the course!`
-    let messageBot = `@${record.username} has completed the course!` // Default message
+    let messageBot = `@${record.username} has completed the course!`
 
-    // Only try Discord functionality if not in test environment
     if (process.env.NODE_ENV !== 'test') {
       try {
         const client = getClient()
         if (client) {
           const guild = await client.guilds.fetch(process.env.GUILD_ID!)
-          const member = guild.members.cache.find(
-            (m) =>
-              m.user.username === record.username ||
-              m.user.globalName === record.username
-          )
+          console.log('Looking for username:', record.username)
+
+          // Use search instead of fetching all members
+          const searchResults = await guild.members.search({
+            query: record.username,
+            limit: 1,
+          })
+
+          console.log('Search results:', searchResults.size)
+
+          const member = searchResults.first()
+          console.log('Found member:', member?.user.username || 'Not found')
 
           if (member) {
             messageBot = `<@${member.id}> has completed the course!`
@@ -41,20 +46,18 @@ export default (db: Database) => ({
         }
       } catch (error) {
         console.error('Discord error:', error)
-        // Continue with default message if Discord fails
       }
     }
 
-    const messageBody: RowInsert = {
+    const completionBody: RowInsert = {
       username: record.username,
       sprintCode: record.sprintCode,
-      message: messageDB,
     }
 
     const result = await db
       .insertInto(TABLE)
-      .values(messageBody)
-      .returning(['id', 'username', 'sprintCode', 'message'])
+      .values(completionBody)
+      .returning(['id', 'username', 'sprintCode'])
       .executeTakeFirst()
 
     return {

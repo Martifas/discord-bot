@@ -3,8 +3,7 @@ import { Router, Request } from 'express'
 import type { Database } from '@/database'
 import buildRepository from './repository'
 import { getClient } from '../bot'
-import { TextChannel } from 'discord.js'
-import { type Client } from 'discord.js'
+import { TextChannel, type Client } from 'discord.js'
 
 export default (db: Database) => {
   const router = Router()
