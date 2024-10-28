@@ -6,10 +6,18 @@ import compileMessage from '../bot/compileMessage'
 type Row = Completion
 type RowWithoutId = Omit<Row, 'id'>
 type RowInsert = Insertable<RowWithoutId>
+type CompletionResultRow = Omit<Completion, 'id'> & { id: number }
+
+interface CompletionResult {
+  result: CompletionResultRow
+  message: {
+    message: string
+  }
+}
 
 export default async (db: Database) => ({
-  async create(data: RowInsert) {
-    const messageBot = await compileMessage(data)
+  async create(data: RowInsert): Promise<CompletionResult> {
+    const { messageBot, messageDb } = await compileMessage(data)
 
     return await db.transaction().execute(async (trx) => {
       const completion = await trx
@@ -18,15 +26,21 @@ export default async (db: Database) => ({
         .returningAll()
         .executeTakeFirstOrThrow()
 
-      const messages = await trx
+      await trx
         .insertInto('message')
-        .values({ messageId: completion.id, message: messageBot })
+        .values({ messageId: completion.id, message: messageDb })
         .returningAll()
         .executeTakeFirstOrThrow()
 
+      const result: CompletionResultRow = {
+        id: completion.id as number,
+        sprintCode: completion.sprintCode,
+        username: completion.username,
+      }
+
       return {
-        result: completion,
-        message: messages,
+        result,
+        message: { message: messageBot ?? '' },
       }
     })
   },

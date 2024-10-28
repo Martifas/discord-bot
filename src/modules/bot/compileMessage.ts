@@ -5,8 +5,16 @@ interface CompletionRecord {
   sprintCode: string
 }
 
-export default async (record: CompletionRecord): Promise<string> => {
-  let messageBot = `@${record.username} has completed the course!`
+interface CompletionResponse {
+  messageDb: string
+  messageBot?: string
+}
+
+export default async (
+  record: CompletionRecord
+): Promise<CompletionResponse> => {
+  const messageDb = `@${record.username} has completed the course!`
+  let messageBot: string | undefined
 
   if (process.env.NODE_ENV !== 'test') {
     try {
@@ -19,5 +27,9 @@ export default async (record: CompletionRecord): Promise<string> => {
     }
   }
 
-  return messageBot
+  return {
+    messageDb,
+    messageBot:
+      messageBot ?? `User ${record.username} has completed the course!`,
+  }
 }
