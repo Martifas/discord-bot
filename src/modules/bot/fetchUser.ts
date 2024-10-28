@@ -1,12 +1,12 @@
 import { getClient } from '.'
 
-export default async (record: any) => {
+export default async (username: string) => {
   const client = getClient()
   if (client) {
     const guild = await client.guilds.fetch(process.env.GUILD_ID!)
 
     const searchResults = await guild.members.search({
-      query: record.username,
+      query: username,
       limit: 1,
     })
 

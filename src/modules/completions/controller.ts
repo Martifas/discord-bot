@@ -9,8 +9,8 @@ export default async (db: Database) => {
   const completions = await buildRepository(db)
   router.post('/', async (req: Request, res: any) => {
     try {
-      const { result, message } = await completions.create(req.body)
-      await sendMessage(message.message)
+      const result = await completions.create(req.body)
+      await sendMessage(result.username)
       if (!result) {
         return res.status(500).json({
           error: 'Failed to create',

@@ -1,23 +1,15 @@
 import 'dotenv/config'
 import type { Insertable } from 'kysely'
 import type { Completion, Database } from '@/database'
-import compileMessage from '../bot/compileMessage'
 
 type Row = Completion
 type RowWithoutId = Omit<Row, 'id'>
 type RowInsert = Insertable<RowWithoutId>
 type CompletionResultRow = Omit<Completion, 'id'> & { id: number }
 
-interface CompletionResult {
-  result: CompletionResultRow
-  message: {
-    message: string
-  }
-}
-
 export default async (db: Database) => ({
-  async create(data: RowInsert): Promise<CompletionResult> {
-    const { messageBot, messageDb } = await compileMessage(data)
+  async create(data: RowInsert): Promise<CompletionResultRow> {
+    const messageDb = `@${data.username} has completed the course!`
 
     return await db.transaction().execute(async (trx) => {
       const completion = await trx
@@ -32,16 +24,13 @@ export default async (db: Database) => ({
         .returningAll()
         .executeTakeFirstOrThrow()
 
-      const result: CompletionResultRow = {
+      const response: CompletionResultRow = {
         id: completion.id as number,
         sprintCode: completion.sprintCode,
         username: completion.username,
       }
 
-      return {
-        result,
-        message: { message: messageBot ?? '' },
-      }
+      return response
     })
   },
 })

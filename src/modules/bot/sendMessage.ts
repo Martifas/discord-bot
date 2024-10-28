@@ -1,7 +1,26 @@
 import { getClient } from '.'
 import { TextChannel } from 'discord.js'
+import fetchUser from './fetchUser'
 
-export default async (message: string) => {
+export default async (username: string) => {
+  let message: string | undefined
+
+  if (process.env.NODE_ENV !== 'test') {
+    try {
+      const member = await fetchUser(username)
+      if (member) {
+        message = `<@${member.id}> has completed the course!`
+      }
+    } catch (error) {
+      console.error('Discord error:', error)
+    }
+  }
+
+  // If no message was set, we can't proceed
+  if (!message) {
+    return
+  }
+
   const client = getClient()
   const GENERAL_CHANNEL = process.env.GENERAL_CHANNEL
 
