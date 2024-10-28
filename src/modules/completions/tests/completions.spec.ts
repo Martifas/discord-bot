@@ -13,6 +13,8 @@ afterEach(async () => {
   await db.deleteFrom('completion').execute()
 })
 
+afterAll(() => db.destroy())
+
 const TEST_USER = 'architektas'
 const TEST_SPRINTCODE = 'WD-1.1'
 

@@ -3,7 +3,7 @@
 <html lang="en">
 
 <head>
-    <title>Code coverage report for src/modules/messages/schema.ts</title>
+    <title>Code coverage report for src/modules/bot/fetchUser.ts</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="../../../prettify.css" />
     <link rel="stylesheet" href="../../../base.css" />
@@ -19,20 +19,20 @@
 <body>
 <div class='wrapper'>
     <div class='pad1'>
-        <h1><a href="../../../index.html">All files</a> / <a href="index.html">src/modules/messages</a> schema.ts</h1>
+        <h1><a href="../../../index.html">All files</a> / <a href="index.html">src/modules/bot</a> fetchUser.ts</h1>
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">15.38% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/14</span>
+                <span class='fraction'>2/13</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/1</span>
+                <span class='fraction'>0/0</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">15.38% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/14</span>
+                <span class='fraction'>2/13</span>
             </div>
         
             
@@ -77,34 +77,43 @@
 <a name='L12'></a><a href='#L12'>12</a>
 <a name='L13'></a><a href='#L13'>13</a>
 <a name='L14'></a><a href='#L14'>14</a>
-<a name='L15'></a><a href='#L15'>15</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
+<a name='L15'></a><a href='#L15'>15</a>
+<a name='L16'></a><a href='#L16'>16</a>
+<a name='L17'></a><a href='#L17'>17</a>
+<a name='L18'></a><a href='#L18'>18</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js"><span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ><span class="branch-0 cbranch-no" title="branch not covered" >import { z } from 'zod'</span></span></span>
-<span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >const insertable = z.object({</span>
-<span class="cstat-no" title="statement not covered" >  id: z</span>
-<span class="cstat-no" title="statement not covered" >    .number()</span>
-<span class="cstat-no" title="statement not covered" >    .int({ message: 'ID must be an integer' })</span>
-<span class="cstat-no" title="statement not covered" >    .positive({ message: 'ID must be positive number' }),</span>
-<span class="cstat-no" title="statement not covered" >  username: z.string().min(1, { message: 'User must be non-empty string' }),</span>
-<span class="cstat-no" title="statement not covered" >  sprintCode: z</span>
-<span class="cstat-no" title="statement not covered" >    .string()</span>
-<span class="cstat-no" title="statement not covered" >    .min(1, { message: 'Sprint code must be non-empty string' }),</span>
-<span class="cstat-no" title="statement not covered" >})</span>
-<span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >export const parseInsertable = (record: unknown) =&gt; insertable.parse(record)</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { getClient } from '.'
+&nbsp;
+export default <span class="fstat-no" title="function not covered" >async (username: string) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >  const client = getClient()</span>
+<span class="cstat-no" title="statement not covered" >  if (client) {</span>
+<span class="cstat-no" title="statement not covered" >    const guild = await client.guilds.fetch(process.env.GUILD_ID!)</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    const searchResults = await guild.members.search({</span>
+<span class="cstat-no" title="statement not covered" >      query: username,</span>
+<span class="cstat-no" title="statement not covered" >      limit: 1,</span>
+<span class="cstat-no" title="statement not covered" >    })</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    const member = searchResults.first()</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    return member</span>
+<span class="cstat-no" title="statement not covered" >  }</span>
+<span class="cstat-no" title="statement not covered" >}</span>
 &nbsp;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
@@ -112,7 +121,7 @@
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2024-10-27T14:42:29.345Z
+                at 2024-10-28T19:52:17.937Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

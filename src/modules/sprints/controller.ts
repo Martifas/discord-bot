@@ -13,7 +13,7 @@ export default (db: Database) => {
     .route('/')
     .get(async (req: Request, res: any) => {
       try {
-        const records = await sprints.findall()
+        const records = await sprints.findAll()
 
         return res.status(200).json(records)
       } catch (error) {
@@ -48,16 +48,15 @@ export default (db: Database) => {
           })
         }
 
-        // Handle other types of errors
         return res.status(500).json({
           error: 'Failed to create completion',
         })
       }
     })
 
-  router.patch('/', (req, res) => {})
+  // router.patch('/', (req, res) => {})
 
-  router.delete('/', (req, res) => {})
+  // router.delete('/', (req, res) => {})
 
   return router
 }

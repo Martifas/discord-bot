@@ -9,7 +9,7 @@ type RowSelect = Selectable<Row>
 type RowInsert = Insertable<RowWithoutId>
 
 export default (db: Database) => ({
-  findall(): Promise<RowSelect[]> {
+  findAll(): Promise<RowSelect[]> {
     return db.selectFrom('sprint').select(keys).execute()
   },
 
