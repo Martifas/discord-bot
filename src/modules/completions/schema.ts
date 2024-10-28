@@ -1,6 +1,6 @@
 import { z } from 'zod'
 
-const insertable = z.object({
+const schema = z.object({
   id: z
     .number()
     .int({ message: 'ID must be an integer' })
@@ -10,5 +10,7 @@ const insertable = z.object({
     .string()
     .min(1, { message: 'Sprint code must be non-empty string' }),
 })
+
+const insertable = schema.omit({ id: true })
 
 export const parseInsertable = (record: unknown) => insertable.parse(record)

@@ -16,7 +16,6 @@ export default async (username: string) => {
     }
   }
 
-  // If no message was set, we can't proceed
   if (!message) {
     return
   }
