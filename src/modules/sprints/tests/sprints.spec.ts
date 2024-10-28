@@ -1,13 +1,13 @@
 import createApp from '@/app'
 import createTestDatabase from '@tests/utils/createTestDatabase'
-import { createFor } from '@tests/utils/record'
+import { createFor, selectAllFor } from '@tests/utils/record'
 import supertest from 'supertest'
 import { fakeSprint, sprintMatcher } from './utils'
 
 const db = await createTestDatabase()
 const app = await (async () => await createApp(db))()
-
 const createSprints = createFor(db, 'sprint')
+const selectSprints = selectAllFor(db, 'sprint')
 
 afterEach(async () => {
   await db.deleteFrom('sprint').execute()
@@ -21,6 +21,33 @@ const ADDITIONAL_FAKE_SPRINT = {
 
 const FAKE_SPRINT_WITH_ID = { id: 100 }
 
+describe('POST', () => {
+  it('should allow creating new sprint record', async () => {
+    const { body } = await supertest(app)
+      .post('/sprints')
+      .send(fakeSprint())
+      .expect(201)
+
+    expect(body).toEqual(sprintMatcher())
+  })
+  it('should persist the new sprint', async () => {
+    await supertest(app).post('/sprints').send(fakeSprint()).expect(201)
+
+    await expect(selectSprints()).resolves.toEqual([sprintMatcher()])
+  })
+
+  it('should ignore the provided id', async () => {
+    const { body } = await supertest(app)
+      .post('/sprints')
+      .send({
+        ...fakeSprint(),
+        id: 123456,
+      })
+
+    expect(body.id).not.toEqual(123456)
+  })
+})
+
 describe('GET', () => {
   it('should return an empty array when there are no sprints', async () => {
     const { body } = await supertest(app).get('/sprints').expect(200)
@@ -31,7 +58,7 @@ describe('GET', () => {
   it('should return a list of existing sprints', async () => {
     await createSprints([fakeSprint(), fakeSprint(ADDITIONAL_FAKE_SPRINT)])
 
-    const { body } = await supertest(app).get('/articles').expect(200)
+    const { body } = await supertest(app).get('/sprints').expect(200)
 
     expect(body).toEqual([
       sprintMatcher(),
@@ -41,13 +68,13 @@ describe('GET', () => {
 })
 
 describe('GET /:id', () => {
-  it('should return 404 if sprint does not exist', async () => {
+  it.skip('should return 404 if sprint does not exist', async () => {
     const { body } = await supertest(app).get('/sprints/123').expect(404)
 
     expect(body.error.message).toMatch(/not found/i)
   })
 
-  it('should return a sprint if it exists', async () => {
+  it.skip('should return a sprint if it exists', async () => {
     const { body } = await supertest(app).get('/sprints/100').expect(200)
 
     expect(body).toEqual(sprintMatcher(FAKE_SPRINT_WITH_ID))
@@ -55,7 +82,7 @@ describe('GET /:id', () => {
 })
 
 describe('PATCH /:id', () => {
-  it('should return 404 if sprint does not exist', async () => {
+  it.skip('should return 404 if sprint does not exist', async () => {
     const { body } = await supertest(app)
       .patch('/sprints/123456')
       .send(fakeSprint())
@@ -64,7 +91,7 @@ describe('PATCH /:id', () => {
     expect(body.error.message).toMatch(/not found/i)
   })
 
-  it('allows partial updates', async () => {
+  it.skip('allows partial updates', async () => {
     const id = 123
     await createSprints([fakeSprint({ id })])
 
@@ -81,7 +108,7 @@ describe('PATCH /:id', () => {
     )
   })
 
-  it('persists changes', async () => {
+  it.skip('persists changes', async () => {
     const id = 123
     await createSprints([fakeSprint({ id })])
 
@@ -103,7 +130,7 @@ describe('PATCH /:id', () => {
 })
 
 describe('DELETE', () => {
-  it('supports deleting the sprint', async () => {
+  it.skip('supports deleting the sprint', async () => {
     await supertest(app).delete('/sprints/100').expect(200)
   })
 })

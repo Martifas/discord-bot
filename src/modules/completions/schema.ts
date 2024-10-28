@@ -1,7 +1,7 @@
 import { z } from 'zod'
 
 const schema = z.object({
-  id: z
+  id: z.coerce
     .number()
     .int({ message: 'ID must be an integer' })
     .positive({ message: 'ID must be positive number' }),
