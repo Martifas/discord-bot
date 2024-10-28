@@ -1,8 +1,8 @@
 import { CamelCasePlugin, Kysely, SqliteDialect } from 'kysely'
 import SQLite from 'better-sqlite3'
+import ModuleMigrationProvider from '@tests/utils/createTestDatabase/ModuleMigrationProvider'
 import { migrateToLatest } from '@/database/migrate'
-import { type DB } from '@/database'
-import ModuleMigrationProvider from './ModuleMigrationProvider'
+import { DB } from '@/database'
 
 const DATABASE_FILE = ':memory:'
 

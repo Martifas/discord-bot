@@ -8,7 +8,8 @@ export default async function createApp(db: Database) {
   const app = express()
 
   app.use(express.json())
-  app.use('/messages', messages(db))
+  const completionsRouter = await messages(db)
+  app.use('/messages', completionsRouter)
 
   if (process.env.NODE_ENV !== 'test') {
     try {

@@ -4,13 +4,13 @@ import type { Database } from '@/database'
 import buildRepository from './repository'
 import sendMessage from '../bot/sendMessage'
 
-export default (db: Database) => {
+export default async (db: Database) => {
   const router = Router()
-  const completions = buildRepository(db)
+  const completions = await buildRepository(db)
   router.post('/', async (req: Request, res: any) => {
     try {
       const { result, message } = await completions.create(req.body)
-      await sendMessage(message)
+      await sendMessage(message.message)
       if (!result) {
         return res.status(500).json({
           error: 'Failed to create',
