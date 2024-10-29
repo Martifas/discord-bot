@@ -88,7 +88,7 @@ describe('update', () => {
   it('should update a sprint', async () => {
     const [sprint] = await createSprints(fakeSprint())
 
-    const updatedSprint = await repository.update(
+    const updatedSprint = await repository.updateByIdOrSprintCode(
       { id: sprint.id },
       {
         title: 'Updated sprint',
@@ -102,13 +102,16 @@ describe('update', () => {
 
   it('should return the original sprint if no changes are made', async () => {
     const [sprint] = await createSprints(fakeSprint())
-    const updatedSprint = await repository.update({ id: sprint.id }, {})
+    const updatedSprint = await repository.updateByIdOrSprintCode(
+      { id: sprint.id },
+      {}
+    )
 
     expect(updatedSprint).toMatchObject(sprintMatcher())
   })
 
   it('should return undefined if sprint is not found', async () => {
-    const updatedSprint = await repository.update(
+    const updatedSprint = await repository.updateByIdOrSprintCode(
       { id: 999 },
       {
         title: 'Updated sprint',

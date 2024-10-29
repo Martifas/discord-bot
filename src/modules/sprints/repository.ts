@@ -40,7 +40,10 @@ export default (db: Database) => ({
     return query.executeTakeFirst()
   },
 
-  update(params: Params, partial: RowUpdate): Promise<RowSelect | undefined> {
+  updateByIdOrSprintCode(
+    params: Params,
+    partial: RowUpdate
+  ): Promise<RowSelect | undefined> {
     if (Object.keys(partial).length === 0) {
       return this.findByIdOrSprintCode(params)
     }

@@ -74,7 +74,7 @@ export default (db: Database) => {
       try {
         const id = schema.parseId(req.params.id)
         const bodyPatch = schema.parseUpdatable(req.body)
-        const record = await sprints.update({ id }, bodyPatch)
+        const record = await sprints.updateByIdOrSprintCode({ id }, bodyPatch)
 
         if (!record) {
           return res.status(404).json({
