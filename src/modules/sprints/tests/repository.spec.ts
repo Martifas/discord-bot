@@ -126,13 +126,15 @@ describe('remove', () => {
   it('should remove a sprint', async () => {
     const [sprint] = await createSprints(fakeSprint())
 
-    const removedSprint = await repository.remove(sprint.id)
+    const removedSprint = await repository.removeByIdOrSprintCode({
+      id: sprint.id,
+    })
 
     expect(removedSprint).toEqual(sprintMatcher())
   })
 
   it('should return undefined if article is not found', async () => {
-    const removedSprint = await repository.remove(999)
+    const removedSprint = await repository.removeByIdOrSprintCode({ id: 999 })
 
     expect(removedSprint).toBeUndefined()
   })

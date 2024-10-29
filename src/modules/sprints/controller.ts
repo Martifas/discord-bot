@@ -102,7 +102,7 @@ export default (db: Database) => {
     .delete(async (req: Request, res: any) => {
       try {
         const id = schema.parseId(req.params.id)
-        const record = await sprints.remove(id)
+        const record = await sprints.removeByIdOrSprintCode({ id })
 
         if (!record) {
           return res.status(404).json({

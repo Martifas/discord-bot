@@ -64,11 +64,20 @@ export default (db: Database) => ({
     return query.executeTakeFirst()
   },
 
-  remove(id: number) {
-    return db
-      .deleteFrom(TABLE)
-      .where('id', '=', id)
-      .returning(keys)
-      .executeTakeFirst()
+  removeByIdOrSprintCode(params: Params) {
+    let query = db.deleteFrom(TABLE).returning(keys)
+
+    if (params.id !== undefined) {
+      query = query.where('id', '=', params.id)
+    }
+    if (params.sprintCode !== undefined) {
+      query = query.where('sprintCode', '=', params.sprintCode)
+    }
+
+    if (!params.id && !params.sprintCode) {
+      throw new Error('Either id or sprintCode must be provided for update')
+    }
+
+    return query.executeTakeFirst()
   },
 })
