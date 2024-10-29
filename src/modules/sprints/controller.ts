@@ -14,7 +14,6 @@ export default (db: Database) => {
     .get(async (req: Request, res: any) => {
       try {
         const records = await sprints.findAll()
-
         return res.status(200).json(records)
       } catch (error) {
         console.error('Error fetching sprints:', error)
@@ -27,36 +26,48 @@ export default (db: Database) => {
       try {
         const body = schema.parseInsertable(req.body)
         const result = await sprints.create(body)
-
         if (!result) {
           return res.status(500).json({
-            error: 'Failed to create',
+            error: { message: 'Failed to create' },
           })
         }
-
         return res.status(201).json(result)
       } catch (error) {
-        console.error('Error creating completion:', error)
-
+        console.error('Error creating sprint:', error)
         if (error instanceof z.ZodError) {
           return res.status(400).json({
-            error: 'Validation error',
+            error: { message: 'Validation error' },
             details: error.errors.map((err) => ({
               field: err.path.join('.'),
               message: err.message,
             })),
           })
         }
-
         return res.status(500).json({
-          error: 'Failed to create completion',
+          error: { message: 'Failed to create sprint' },
         })
       }
     })
 
-  // router.patch('/', (req, res) => {})
+  router.route('/:id(\\d+)').get(async (req: Request, res: any) => {
+    try {
+      const id = schema.parseId(req.params.id)
+      const record = await sprints.findById(id) // Added await here
 
-  // router.delete('/', (req, res) => {})
+      if (!record) {
+        return res.status(404).json({
+          error: { message: 'Sprint not found' },
+        })
+      }
+
+      return res.status(200).json(record)
+    } catch (error) {
+      console.error('Error fetching sprint:', error)
+      return res.status(500).json({
+        error: { message: 'Internal server error while fetching sprint' },
+      })
+    }
+  })
 
   return router
 }

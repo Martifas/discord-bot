@@ -71,3 +71,13 @@ describe('findAll', () => {
     )
   })
 })
+
+describe('findById', () => {
+  it('should return a sprint by id', async () => {
+    const [sprint] = await createSprints(fakeSprint({ id: 101 }))
+
+    const foundSprint = await repository.findById(sprint!.id)
+
+    expect(foundSprint).toEqual(sprintMatcher())
+  })
+})

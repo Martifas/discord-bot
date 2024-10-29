@@ -67,16 +67,20 @@ describe('GET', () => {
 })
 
 describe('GET /:id', () => {
-  it.skip('should return 404 if sprint does not exist', async () => {
+  it('should return 404 if sprint does not exist', async () => {
     const { body } = await supertest(app).get('/sprints/123').expect(404)
 
     expect(body.error.message).toMatch(/not found/i)
   })
 
-  it.skip('should return a sprint if it exists', async () => {
-    const { body } = await supertest(app).get('/sprints/100').expect(200)
+  it('should return a sprint if it exists', async () => {
+    const [sprint] = await createSprints([fakeSprint()])
 
-    expect(body).toEqual(sprintMatcher(FAKE_SPRINT_WITH_ID))
+    const { body } = await supertest(app)
+      .get(`/sprints/${sprint.id}`)
+      .expect(200)
+
+    expect(body).toEqual(sprintMatcher(fakeSprint()))
   })
 })
 
