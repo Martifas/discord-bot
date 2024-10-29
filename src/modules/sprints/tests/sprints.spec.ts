@@ -66,6 +66,17 @@ describe('GET', () => {
   })
 })
 
+describe('PATCH', () => {
+  it('should not support patching', async () => {
+    await supertest(app).patch('/sprints').expect(405)
+  })
+})
+describe('DELETE', () => {
+  it('should not support deleting', async () => {
+    await supertest(app).delete('/sprints').expect(405)
+  })
+})
+
 describe('GET /:id', () => {
   it('should return 404 if sprint does not exist', async () => {
     const { body } = await supertest(app).get('/sprints/123').expect(404)
@@ -81,6 +92,12 @@ describe('GET /:id', () => {
       .expect(200)
 
     expect(body).toEqual(sprintMatcher(fakeSprint()))
+  })
+})
+
+describe('POST /:id', () => {
+  it('should not support posting with by id', async () => {
+    await supertest(app).post('/sprints/123').expect(405)
   })
 })
 
@@ -167,6 +184,12 @@ describe('GET /:sprintcode', () => {
   })
 })
 
+describe('POST /:sprintcode', () => {
+  it('should not support posting with by sprintcode', async () => {
+    await supertest(app).post('/sprints/WD-1.1').expect(405)
+  })
+})
+
 describe('PATCH /:sprintcode', () => {
   it('should return 404 if sprint does not exist', async () => {
     const { body } = await supertest(app)
@@ -221,7 +244,7 @@ describe('PATCH /:sprintcode', () => {
       .send({ sprintCode: 'NEW-CODE' })
       .expect(400)
 
-    expect(body.error.message).toMatch(/cannot update sprint code/i)
+    expect(body.error.message).toMatch(/cannot update sprint/i)
   })
 })
 

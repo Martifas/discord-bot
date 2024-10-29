@@ -1,18 +1,9 @@
 import type { Database } from '@/database'
-import type { Sprint } from '@/database'
-import type { Insertable, Selectable, Updateable } from 'kysely'
 import { keys } from './schema'
+import { Params } from './types/sprint-repository.types'
+import { RowInsert, RowSelect, RowUpdate } from './types/sprint.types'
 
 const TABLE = 'sprint'
-type Row = Sprint
-type RowWithoutId = Omit<Row, 'id'>
-type RowSelect = Selectable<Row>
-type RowInsert = Insertable<RowWithoutId>
-type RowUpdate = Updateable<RowWithoutId>
-type Params = {
-  id?: number
-  sprintCode?: string
-}
 
 export default (db: Database) => ({
   findAll(): Promise<RowSelect[]> {
