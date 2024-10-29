@@ -153,7 +153,6 @@ describe('DELETE /:id', () => {
 describe('GET /:sprintcode', () => {
   it('should return 404 if sprint does not exist', async () => {
     const { body } = await supertest(app).get(`/sprints/WD-9.9`).expect(404)
-
     expect(body.error.message).toMatch(/not found/i)
   })
 

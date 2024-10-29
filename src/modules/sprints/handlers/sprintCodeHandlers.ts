@@ -1,29 +1,24 @@
 import { z } from 'zod'
 import * as schema from '../schema'
 import { Request } from 'express'
+import { jsonRoute } from '@/utils/errors/middleware'
+import { SprintNotFound } from '../errors'
 export const getSprintCodeHandlers = (sprints: any) => ({
-  get: async (req: any, res: any) => {
-    try {
-      const sprintCode = schema.parseSprintCode(req.params.sprintcode)
-      const record = await sprints.findByIdOrSprintCode({ sprintCode })
-      if (!record) {
-        return res.status(404).json({
-          error: { message: 'Sprint not found' },
-        })
-      }
-      return res.status(200).json(record)
-    } catch (error) {
-      console.error('Error fetching sprint:', error)
-      return res.status(500).json({
-        error: { message: 'Internal server error while fetching sprint' },
-      })
+  get: jsonRoute(async (req: Request) => {
+    const sprintCode = schema.parseSprintCode(req.params.sprintcode)
+    const record = await sprints.findByIdOrSprintCode({ sprintCode })
+
+    if (!record) {
+      throw new SprintNotFound()
     }
-  },
+
+    return record
+  }),
+
   patch: async (req: Request, res: any) => {
     try {
       const sprintCode = schema.parseSprintCode(req.params.sprintcode)
 
-      // Check if sprint exists first
       const existingSprint = await sprints.findByIdOrSprintCode({ sprintCode })
       if (!existingSprint) {
         return res.status(404).json({
@@ -31,7 +26,6 @@ export const getSprintCodeHandlers = (sprints: any) => ({
         })
       }
 
-      // Then check if trying to update sprintCode
       if ('sprintCode' in req.body) {
         return res.status(400).json({
           error: { message: 'Cannot update sprint code' },

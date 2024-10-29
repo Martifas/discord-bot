@@ -4,6 +4,7 @@ import bot from './modules/bot'
 import messages from './modules/completions/controller'
 import sprints from './modules/sprints/controller'
 import { type Database } from '../src/database'
+import jsonErrorHandler from './middleware/jsonErrors'
 
 export default async function createApp(db: Database) {
   const app = express()
@@ -13,6 +14,7 @@ export default async function createApp(db: Database) {
   app.use(express.json())
   app.use('/messages', completionsRouter)
   app.use('/sprints', sprints(db))
+  app.use(jsonErrorHandler)
 
   if (process.env.NODE_ENV !== 'test') {
     try {
