@@ -14,6 +14,8 @@ const updatable = insertable.partial()
 
 export const parseId = (id: unknown) => schema.shape.id.parse(id)
 export const parse = (record: unknown) => schema.parse(record)
+export const parseSprintCode = (sprintCode: unknown) =>
+  schema.shape.sprintCode.parse(sprintCode)
 export const parseInsertable = (record: unknown) => insertable.parse(record)
 export const parseUpdatable = (record: unknown) => updatable.parse(record)
 
