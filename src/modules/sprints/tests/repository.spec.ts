@@ -81,3 +81,17 @@ describe('findById', () => {
     expect(foundSprint).toEqual(sprintMatcher())
   })
 })
+
+describe('update', () => {
+  it('should update a sprint', async () => {
+    const [sprint] = await createSprints(fakeSprint())
+
+    const updatedSprint = await repository.update(sprint.id, {
+      title: 'Updated sprint',
+    })
+
+    expect(updatedSprint).toMatchObject(
+      sprintMatcher({ title: 'Updated sprint' })
+    )
+  })
+})

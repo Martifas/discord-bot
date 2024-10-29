@@ -85,7 +85,7 @@ describe('GET /:id', () => {
 })
 
 describe('PATCH /:id', () => {
-  it.skip('should return 404 if sprint does not exist', async () => {
+  it('should return 404 if sprint does not exist', async () => {
     const { body } = await supertest(app)
       .patch('/sprints/123456')
       .send(fakeSprint())
@@ -94,7 +94,7 @@ describe('PATCH /:id', () => {
     expect(body.error.message).toMatch(/not found/i)
   })
 
-  it.skip('allows partial updates', async () => {
+  it('allows partial updates', async () => {
     const id = 123
     await createSprints([fakeSprint({ id })])
 
@@ -111,7 +111,7 @@ describe('PATCH /:id', () => {
     )
   })
 
-  it.skip('persists changes', async () => {
+  it('persists changes', async () => {
     const id = 123
     await createSprints([fakeSprint({ id })])
 

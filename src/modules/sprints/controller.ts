@@ -49,25 +49,55 @@ export default (db: Database) => {
       }
     })
 
-  router.route('/:id(\\d+)').get(async (req: Request, res: any) => {
-    try {
-      const id = schema.parseId(req.params.id)
-      const record = await sprints.findById(id) // Added await here
+  router
+    .route('/:id(\\d+)')
+    .get(async (req: Request, res: any) => {
+      try {
+        const id = schema.parseId(req.params.id)
+        const record = await sprints.findById(id)
 
-      if (!record) {
-        return res.status(404).json({
-          error: { message: 'Sprint not found' },
+        if (!record) {
+          return res.status(404).json({
+            error: { message: 'Sprint not found' },
+          })
+        }
+
+        return res.status(200).json(record)
+      } catch (error) {
+        console.error('Error fetching sprint:', error)
+        return res.status(500).json({
+          error: { message: 'Internal server error while fetching sprint' },
         })
       }
+    })
+    .patch(async (req: Request, res: any) => {
+      try {
+        const id = schema.parseId(req.params.id)
+        const bodyPatch = schema.parseUpdatable(req.body)
+        const record = await sprints.update(id, bodyPatch)
 
-      return res.status(200).json(record)
-    } catch (error) {
-      console.error('Error fetching sprint:', error)
-      return res.status(500).json({
-        error: { message: 'Internal server error while fetching sprint' },
-      })
-    }
-  })
+        if (!record) {
+          return res.status(404).json({
+            error: { message: 'Sprint not found' },
+          })
+        }
+        return res.status(200).json(record)
+      } catch (error) {
+        console.error('Error updating sprint:', error)
+        if (error instanceof z.ZodError) {
+          return res.status(400).json({
+            error: { message: 'Validation error' },
+            details: error.errors.map((err) => ({
+              field: err.path.join('.'),
+              message: err.message,
+            })),
+          })
+        }
+        return res.status(500).json({
+          error: { message: 'Failed to update sprint' },
+        })
+      }
+    })
 
   return router
 }
