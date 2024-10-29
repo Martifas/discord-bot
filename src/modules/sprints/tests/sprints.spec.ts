@@ -133,8 +133,20 @@ describe('PATCH /:id', () => {
 })
 
 describe('DELETE /:id', () => {
-  it.skip('supports deleting the sprint', async () => {
-    await supertest(app).delete('/sprints/100').expect(200)
+  it('supports deleting the sprint', async () => {
+    const [sprint] = await createSprints(fakeSprint())
+
+    const { body } = await supertest(app)
+      .delete(`/sprints/${sprint.id}`)
+      .expect(200)
+
+    expect(body).toEqual(sprint)
+  })
+
+  it('should return 404 if sprint does not exist', async () => {
+    const { body } = await supertest(app).get('/sprints/123').expect(404)
+
+    expect(body.error.message).toMatch(/not found/i)
   })
 })
 

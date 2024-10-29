@@ -54,7 +54,7 @@ export default (db: Database) => {
     .get(async (req: Request, res: any) => {
       try {
         const id = schema.parseId(req.params.id)
-        const record = await sprints.findById(id)
+        const record = await sprints.findByIdOrSprintCode({ id })
 
         if (!record) {
           return res.status(404).json({
@@ -74,7 +74,7 @@ export default (db: Database) => {
       try {
         const id = schema.parseId(req.params.id)
         const bodyPatch = schema.parseUpdatable(req.body)
-        const record = await sprints.update(id, bodyPatch)
+        const record = await sprints.update({ id }, bodyPatch)
 
         if (!record) {
           return res.status(404).json({
@@ -95,6 +95,25 @@ export default (db: Database) => {
         }
         return res.status(500).json({
           error: { message: 'Failed to update sprint' },
+        })
+      }
+    })
+
+    .delete(async (req: Request, res: any) => {
+      try {
+        const id = schema.parseId(req.params.id)
+        const record = await sprints.remove(id)
+
+        if (!record) {
+          return res.status(404).json({
+            error: { message: 'Sprint not found' },
+          })
+        }
+        return res.status(200).json(record)
+      } catch (error) {
+        console.error('Error deleting sprint:', error)
+        return res.status(500).json({
+          error: { message: 'Internal server error while deleting sprint' },
         })
       }
     })
