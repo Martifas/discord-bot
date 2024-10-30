@@ -26,8 +26,14 @@ export interface Sprint {
   title: string;
 }
 
+export interface Template {
+  id: Generated<number>;
+  template: string;
+}
+
 export interface DB {
   completion: Completion;
   message: Message;
   sprint: Sprint;
+  template: Template;
 }
