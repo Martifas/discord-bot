@@ -2,7 +2,7 @@ import type { Database } from '@/database'
 import { keys } from './schema'
 import { Params } from './types/sprint-repository.types'
 import { RowInsert, RowSelect, RowUpdate } from './types/sprint.types'
-import { DuplicateSprintCodeError } from './errors'
+import { DuplicateSprintCodeError, IdOrCodeMissingError } from './errors'
 
 const TABLE = 'sprint'
 
@@ -62,7 +62,7 @@ export default (db: Database) => ({
     }
 
     if (!params.id && !params.sprintCode) {
-      throw new Error('Either id or sprintCode must be provided for update')
+      throw new IdOrCodeMissingError()
     }
 
     return query.executeTakeFirst()
@@ -79,7 +79,7 @@ export default (db: Database) => ({
     }
 
     if (!params.id && !params.sprintCode) {
-      throw new Error('Either id or sprintCode must be provided for update')
+      throw new IdOrCodeMissingError()
     }
 
     return query.executeTakeFirst()

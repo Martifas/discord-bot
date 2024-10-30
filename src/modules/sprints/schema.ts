@@ -3,7 +3,7 @@ import { z } from 'zod'
 
 const schema = z.object({
   id: z.coerce.number().int().positive(),
-  sprintCode: z.string().min(6),
+  sprintCode: z.string().min(6, { message: 'Too short' }),
   title: z.string().min(1),
 })
 

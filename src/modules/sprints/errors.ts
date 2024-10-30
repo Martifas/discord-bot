@@ -20,3 +20,10 @@ export class DuplicateSprintCodeError extends Conflict {
     this.name = 'DuplicateSprintCodeError'
   }
 }
+
+export class IdOrCodeMissingError extends Error {
+  constructor(message = 'Either id or sprintCode must be provided') {
+    super(message)
+    this.name = 'IdOrCodeMissingError'
+  }
+}

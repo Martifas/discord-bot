@@ -3,7 +3,7 @@ import { z } from 'zod'
 
 const schema = z.object({
   id: z.coerce.number().int().positive(),
-  template: z.string().min(1),
+  template: z.string().min(1, { message: 'Template must be non-empty string' }),
 })
 
 const insertable = schema.omit({ id: true })

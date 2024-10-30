@@ -2,6 +2,7 @@ import createTestDatabase from '@tests/utils/createTestDatabase'
 import buildRepository from '../repository'
 import { createFor, selectAllFor } from '@tests/utils/record'
 import { fakeSprint, sprintMatcher } from './utils'
+import { IdOrCodeMissingError } from '../errors'
 
 const db = await createTestDatabase()
 const repository = buildRepository(db)
@@ -120,6 +121,15 @@ describe('update', () => {
 
     expect(updatedSprint).toBeUndefined()
   })
+
+  it('should throw an error when sprintCode and id are both falsy', () => {
+    expect(() => {
+      repository.updateByIdOrSprintCode(
+        { sprintCode: undefined, id: undefined },
+        { title: 'some update data' }
+      )
+    }).toThrow(IdOrCodeMissingError)
+  })
 })
 
 describe('remove', () => {
@@ -137,5 +147,14 @@ describe('remove', () => {
     const removedSprint = await repository.removeByIdOrSprintCode({ id: 999 })
 
     expect(removedSprint).toBeUndefined()
+  })
+
+  it('should throw an error when sprintCode and id are both falsy', () => {
+    expect(() => {
+      repository.removeByIdOrSprintCode({
+        sprintCode: undefined,
+        id: undefined,
+      })
+    }).toThrow(IdOrCodeMissingError)
   })
 })
