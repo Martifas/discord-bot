@@ -3,12 +3,12 @@ import { Router } from 'express'
 import * as schema from './schema'
 import buildRepository from './repository'
 import { getSprintIdHandlers } from './handlers/idHandlers'
-import { getSprintCodeHandlers } from './handlers/sprintcodeHandlers'
+import { getSprintCodeHandlers } from './handlers/codeHandlers'
 import { jsonRoute, unsupportedRoute } from '@/middleware'
 import { StatusCodes } from 'http-status-codes'
 
-const ID_ROUTE = '/:id(\\d+)'
-const SPRINT_CODE_ROUTE = '/:sprintcode([wW][dD]-\\d+\\.\\d+)'
+const ID_ROUTE = '/id/:id(\\d+)'
+const SPRINT_CODE_ROUTE = '/code/:sprintcode([wW][dD]-\\d+\\.\\d+)'
 
 export default (db: Database) => {
   const router = Router()
