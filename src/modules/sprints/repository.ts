@@ -2,6 +2,7 @@ import type { Database } from '@/database'
 import { keys } from './schema'
 import { Params } from './types/sprint-repository.types'
 import { RowInsert, RowSelect, RowUpdate } from './types/sprint.types'
+import { DuplicateSprintCodeError } from './errors'
 
 const TABLE = 'sprint'
 
@@ -10,12 +11,24 @@ export default (db: Database) => ({
     return db.selectFrom(TABLE).select(keys).execute()
   },
 
-  create(record: RowInsert): Promise<RowSelect | undefined> {
-    return db
+  async create(record: RowInsert): Promise<RowSelect | undefined> {
+    const existing = await db
+      .selectFrom(TABLE)
+      .select(keys)
+      .where('sprintCode', '=', record.sprintCode)
+      .executeTakeFirst()
+
+    if (existing) {
+      throw new DuplicateSprintCodeError(record.sprintCode)
+    }
+
+    const created = await db
       .insertInto(TABLE)
       .values(record)
       .returning(keys)
       .executeTakeFirst()
+
+    return created
   },
 
   findByIdOrSprintCode(params: Params): Promise<RowSelect | undefined> {

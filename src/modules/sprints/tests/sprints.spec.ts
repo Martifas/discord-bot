@@ -42,6 +42,11 @@ describe('POST', () => {
 
     expect(body.id).not.toEqual(123456)
   })
+  it('should not allow creating sprint record if same sprintcode exits', async () => {
+    await createSprints([fakeSprint()])
+
+    await supertest(app).post('/sprints').send(fakeSprint()).expect(409)
+  })
 })
 
 describe('GET', () => {
