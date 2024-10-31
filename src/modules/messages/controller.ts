@@ -1,17 +1,24 @@
 import { Database } from '@/database'
 import { Router } from 'express'
+import * as schema from './schema'
+import buildRepository from './repository'
+import { jsonRoute } from '@/middleware'
+import sendMessage from '../bot/sendMessage'
+import { StatusCodes } from 'http-status-codes'
+import { getCodeHandlers, getusernameHandlers } from './handlers/handlers'
 
 export default async (db: Database) => {
   const router = Router()
-  const completions = await buildRepository(db)
-  const handlers = getHandlers(completions)
+  const messages = await buildRepository(db)
+  const usernameHandler = getusernameHandlers(messages)
+  const codeHandler = getCodeHandlers(messages)
 
   router
     .route('/')
     .post(
       jsonRoute(async (req) => {
         const body = schema.parseInsertable(req.body)
-        const result = await completions.create(body)
+        const result = await messages.create(body)
         if (result) {
           await sendMessage(result.username)
         }
@@ -20,23 +27,17 @@ export default async (db: Database) => {
       }, StatusCodes.CREATED)
     )
     .get((req, res, next) => {
-      if (!req.query.id) {
-        return jsonRoute(completions.findAll)(req, res, next)
+      if (!req.query.username && !req.query.sprintCode) {
+        return jsonRoute(messages.findAll)(req, res, next)
       }
 
-      return handlers.get(req, res, next)
-    })
-    .patch((req, res, next) => {
-      if (req.query.id) {
-        return handlers.patch(req, res, next)
+      if (req.query.username) {
+        return usernameHandler.get(req, res, next)
       }
-      return unsupportedRoute(req, res, next)
-    })
-    .delete((req, res, next) => {
-      if (req.query.id) {
-        return handlers.delete(req, res, next)
+
+      if (req.query.sprintCode) {
+        return codeHandler.get(req, res, next)
       }
-      return unsupportedRoute(req, res, next)
     })
 
   return router

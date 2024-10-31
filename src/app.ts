@@ -1,7 +1,7 @@
 import 'dotenv/config'
 import express from 'express'
 import bot from './modules/bot'
-import messages from './modules/completions/controller'
+import messages from './modules/messages/controller'
 import sprints from './modules/sprints/controller'
 import templates from './modules/templates/controller'
 import { type Database } from '../src/database'

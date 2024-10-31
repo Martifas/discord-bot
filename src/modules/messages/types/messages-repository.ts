@@ -1,7 +1,7 @@
 import { RowInsert, RowSelect } from './messages.types'
 
 export type MessageRepository = {
-  findall(): Promise<RowSelect[]>
+  findAll(): Promise<RowSelect[]>
   create(record: RowInsert): Promise<RowSelect | undefined>
   findBy(params: Params): Promise<RowSelect | undefined>
 }

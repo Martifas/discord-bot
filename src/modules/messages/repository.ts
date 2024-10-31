@@ -14,7 +14,7 @@ export default async (db: Database) => ({
   },
   async create(data: RowInsert): Promise<RowSelect | undefined> {
     const existing = await db
-      .selectFrom('completion')
+      .selectFrom(COMPLETION_TABLE)
       .select(completionKeys)
       .where('sprintCode', '=', data.sprintCode)
       .where('username', '=', data.username)
@@ -27,7 +27,7 @@ export default async (db: Database) => ({
 
     return await db.transaction().execute(async (trx) => {
       const completion = await trx
-        .insertInto('completion')
+        .insertInto(COMPLETION_TABLE)
         .values(data)
         .returningAll()
         .executeTakeFirstOrThrow()

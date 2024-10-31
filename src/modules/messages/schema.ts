@@ -8,8 +8,7 @@ const schema = z.object({
   message: z.string().min(1),
 })
 
-const insertable = schema.omit({ messageId: true })
-const updatable = insertable.partial()
+const insertable = schema.omit({ messageId: true, message: true })
 
 export const parseId = (id: unknown) => schema.shape.messageId.parse(id)
 export const parse = (record: unknown) => schema.parse(record)
