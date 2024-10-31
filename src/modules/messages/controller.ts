@@ -18,9 +18,9 @@ export default async (db: Database) => {
     .post(
       jsonRoute(async (req) => {
         const body = schema.parseInsertable(req.body)
-        const result = await messages.create(body)
+        const { result, message } = await messages.create(body)
         if (result) {
-          await sendMessage(result.username)
+          await sendMessage(result.username, message)
         }
 
         return result

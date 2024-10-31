@@ -9,15 +9,9 @@ export type Generated<T> = T extends ColumnType<infer S, infer I, infer U>
   ? ColumnType<S, I | undefined, U>
   : ColumnType<T, T | undefined, T>;
 
-export interface Completion {
-  id: Generated<number>;
-  sprintCode: string;
-  username: string;
-}
-
 export interface Message {
   message: string;
-  messageId: number;
+  messageId: Generated<number | null>;
   sprintCode: string;
   username: string;
 }
@@ -34,7 +28,6 @@ export interface Template {
 }
 
 export interface DB {
-  completion: Completion;
   message: Message;
   sprint: Sprint;
   template: Template;
