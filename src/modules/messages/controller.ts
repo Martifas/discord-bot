@@ -2,7 +2,7 @@ import { Database } from '@/database'
 import { Router } from 'express'
 import * as schema from './schema'
 import buildRepository from './repository'
-import { jsonRoute } from '@/middleware'
+import { jsonRoute, unsupportedRoute } from '@/middleware'
 import sendMessage from '../bot/sendMessage'
 import { StatusCodes } from 'http-status-codes'
 import { getCodeHandlers, getusernameHandlers } from './handlers/handlers'
@@ -39,6 +39,8 @@ export default async (db: Database) => {
         return codeHandler.get(req, res, next)
       }
     })
+    .patch(unsupportedRoute)
+    .delete(unsupportedRoute)
 
   return router
 }

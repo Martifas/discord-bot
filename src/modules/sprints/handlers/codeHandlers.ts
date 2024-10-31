@@ -1,7 +1,7 @@
 import * as schema from '../schema'
 import { Request } from 'express'
 import { jsonRoute } from '@/middleware'
-import { CantUpdateSprint, SprintNotFound } from '../errors'
+import { CantUpdateSprint, SprintNotFound } from '../errors/errors'
 import { SprintRepository } from '../types/sprint-repository.types'
 
 const getSprintCode = (req: Request): string => {

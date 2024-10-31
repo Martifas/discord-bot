@@ -1,7 +1,7 @@
 import * as schema from '../schema'
 import { Request } from 'express'
 import { jsonRoute } from '@/middleware'
-import { SprintNotFound } from '../errors'
+import { SprintNotFound } from '../errors/errors'
 import { SprintRepository } from '../types/sprint-repository.types'
 
 const getId = (req: Request): number => {

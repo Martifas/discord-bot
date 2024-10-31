@@ -1,7 +1,7 @@
 import { jsonRoute } from '@/middleware'
 import { MessageRepository } from '../types/messages-repository'
 import * as schema from '../schema'
-import { MessageNotFound } from '../errors'
+import { MessageNotFound } from '../errors/errors'
 import { Request } from 'express'
 
 export const getCodeHandlers = (messages: MessageRepository) => ({

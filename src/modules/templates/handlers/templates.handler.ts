@@ -2,7 +2,7 @@ import { Request } from 'express'
 import * as schema from '../schema'
 import { TemplateRepository } from '../types/template-repository.types'
 import { jsonRoute } from '@/middleware'
-import { TemplateNotFound } from '../errors'
+import { TemplateNotFound } from '../errors/errors'
 
 const getId = (req: Request): number => {
   return schema.parseId(req.query.id)

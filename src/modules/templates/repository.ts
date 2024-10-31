@@ -1,7 +1,7 @@
 import type { Database } from '@/database'
 import { RowInsert, RowSelect, RowUpdate } from './types/template.types'
 import { keys } from './schema'
-import { DuplicateTemplateIdError } from './errors'
+import { DuplicateTemplateIdError } from './errors/errors'
 
 const TABLE = 'template'
 

@@ -2,7 +2,7 @@ import type { Database } from '@/database'
 import { keys } from './schema'
 import { Params } from './types/sprint-repository.types'
 import { RowInsert, RowSelect, RowUpdate } from './types/sprint.types'
-import { DuplicateSprintCodeError, IdOrCodeMissingError } from './errors'
+import { DuplicateSprintCodeError, IdOrCodeMissingError } from './errors/errors'
 
 const TABLE = 'sprint'
 

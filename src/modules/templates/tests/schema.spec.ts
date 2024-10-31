@@ -11,7 +11,9 @@ it('throws an error due to empty/missing template', () => {
     id: 11,
     template: '',
   }
-  expect(() => parse(templateWithoutTemplate)).toThrow(/template/i)
+  expect(() => parse(templateWithoutTemplate)).toThrow(
+    /Template must be non-empty string/i
+  )
 })
 
 describe('parseInsertable', () => {

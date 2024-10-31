@@ -2,7 +2,7 @@ import createTestDatabase from '@tests/utils/createTestDatabase'
 import buildRepository from '../repository'
 import { createFor, selectAllFor } from '@tests/utils/record'
 import { fakeSprint, sprintMatcher } from './utils'
-import { IdOrCodeMissingError } from '../errors'
+import { IdOrCodeMissingError } from '../errors/errors'
 
 const db = await createTestDatabase()
 const repository = buildRepository(db)

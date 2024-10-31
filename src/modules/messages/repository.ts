@@ -1,7 +1,7 @@
 import { Database } from '@/database'
 import { RowInsert, RowSelect } from './types/messages.types'
 import { keys } from './schema'
-import { DuplicateRecordError } from './errors'
+import { DuplicateRecordError } from './errors/errors'
 import { createResults, Params } from './types/messages-repository'
 
 const MESSAGE_TABLE = 'message'
