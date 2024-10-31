@@ -1,8 +1,8 @@
 import { Request } from 'express'
 import * as schema from '../schema'
-import { TemplateRepository } from '../types/template-repository.types'
+import { CompletionNotFound } from '../errors'
+import { CompletionRepository } from '../types/completion-repository.types'
 import { jsonRoute } from '@/middleware'
-import { TemplateNotFound } from '../errors'
 
 const getId = (req: Request): number => {
   return schema.parseId(req.query.id)
@@ -10,12 +10,12 @@ const getId = (req: Request): number => {
 
 const ensureExists = <T>(record: T | null): T => {
   if (!record) {
-    throw new TemplateNotFound()
+    throw new CompletionNotFound()
   }
   return record
 }
 
-export const getHandlers = (templates: TemplateRepository) => ({
+export const getHandlers = (templates: CompletionRepository) => ({
   get: jsonRoute(async (req: Request) => {
     const id = getId(req)
     const record = await templates.findById(id)

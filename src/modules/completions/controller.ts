@@ -1,47 +1,49 @@
-import { z } from 'zod'
-import { Router, Request } from 'express'
+import { Router } from 'express'
 import type { Database } from '@/database'
 import buildRepository from './repository'
 import sendMessage from '../bot/sendMessage'
 import * as schema from './schema'
+import { jsonRoute, unsupportedRoute } from '@/middleware'
+import { StatusCodes } from 'http-status-codes'
+import { getHandlers } from './handlers/completions.handler'
 
 export default async (db: Database) => {
   const router = Router()
   const completions = await buildRepository(db)
+  const handlers = getHandlers(completions)
 
-  router.post('/', async (req: Request, res: any): Promise<any> => {
-    try {
-      const body = schema.parseInsertable(req.body)
-      const result = await completions.create(body)
+  router
+    .route('/')
+    .post(
+      jsonRoute(async (req) => {
+        const body = schema.parseInsertable(req.body)
+        const result = await completions.create(body)
+        if (result) {
+          await sendMessage(result.username)
+        }
 
-      if (!result) {
-        return res.status(500).json({
-          error: 'Failed to create',
-        })
+        return result
+      }, StatusCodes.CREATED)
+    )
+    .get((req, res, next) => {
+      if (!req.query.id) {
+        return jsonRoute(completions.findAll)(req, res, next)
       }
 
-      await sendMessage(result.username)
-
-      return res.status(201).json(result)
-    } catch (error) {
-      console.error('Error creating completion:', error)
-
-      if (error instanceof z.ZodError) {
-        return res.status(400).json({
-          error: 'Validation error',
-          details: error.errors.map((err) => ({
-            field: err.path.join('.'),
-            message: err.message,
-          })),
-        })
+      return handlers.get(req, res, next)
+    })
+    .patch((req, res, next) => {
+      if (req.query.id) {
+        return handlers.patch(req, res, next)
       }
-
-      // Handle other types of errors
-      return res.status(500).json({
-        error: 'Failed to create completion',
-      })
-    }
-  })
+      return unsupportedRoute(req, res, next)
+    })
+    .delete((req, res, next) => {
+      if (req.query.id) {
+        return handlers.delete(req, res, next)
+      }
+      return unsupportedRoute(req, res, next)
+    })
 
   return router
 }
