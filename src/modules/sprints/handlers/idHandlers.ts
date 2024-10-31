@@ -5,7 +5,7 @@ import { SprintNotFound } from '../errors'
 import { SprintRepository } from '../types/sprint-repository.types'
 
 const getId = (req: Request): number => {
-  return schema.parseId(req.params.id)
+  return schema.parseId(req.query.id)
 }
 
 export const getSprintIdHandlers = (sprints: SprintRepository) => ({

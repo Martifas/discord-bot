@@ -5,7 +5,7 @@ import { jsonRoute } from '@/middleware'
 import { TemplateNotFound } from '../errors'
 
 const getId = (req: Request): number => {
-  return schema.parseId(req.params.id)
+  return schema.parseId(req.query.id)
 }
 
 export const getHandlers = (templates: TemplateRepository) => ({

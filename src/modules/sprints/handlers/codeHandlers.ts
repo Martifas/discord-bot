@@ -5,7 +5,7 @@ import { CantUpdateSprint, SprintNotFound } from '../errors'
 import { SprintRepository } from '../types/sprint-repository.types'
 
 const getSprintCode = (req: Request): string => {
-  return schema.parseSprintCode(req.params.sprintcode).toUpperCase()
+  return schema.parseSprintCode(req.query.sprintcode).toUpperCase()
 }
 
 export const getSprintCodeHandlers = (sprints: SprintRepository) => ({

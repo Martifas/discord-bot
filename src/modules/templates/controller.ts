@@ -6,33 +6,38 @@ import { jsonRoute, unsupportedRoute } from '@/middleware'
 import * as schema from './schema'
 import { StatusCodes } from 'http-status-codes'
 
-const ID_ROUTE = '/id/:id(\\d+)'
-
 export default (db: Database) => {
   const router = Router()
   const templates = buildRepository(db)
   const handlers = getHandlers(templates)
 
   router
-
     .route('/')
-    .get(jsonRoute(templates.findAll))
+    .get((req, res, next) => {
+      if (!req.query.id) {
+        return jsonRoute(templates.findAll)(req, res, next)
+      }
+
+      return handlers.get(req, res, next)
+    })
     .post(
       jsonRoute(async (req) => {
         const body = schema.parseInsertable(req.body)
-
         return templates.create(body)
       }, StatusCodes.CREATED)
     )
-    .patch(unsupportedRoute)
-    .delete(unsupportedRoute)
-
-  router
-    .route(ID_ROUTE)
-    .post(unsupportedRoute)
-    .get(handlers.get)
-    .patch(handlers.patch)
-    .delete(handlers.delete)
+    .patch((req, res, next) => {
+      if (req.query.id) {
+        return handlers.patch(req, res, next)
+      }
+      return unsupportedRoute(req, res, next)
+    })
+    .delete((req, res, next) => {
+      if (req.query.id) {
+        return handlers.delete(req, res, next)
+      }
+      return unsupportedRoute(req, res, next)
+    })
 
   return router
 }
