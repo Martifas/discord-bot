@@ -18,6 +18,8 @@ export interface Completion {
 export interface Message {
   message: string;
   messageId: number;
+  sprintCode: string;
+  username: string;
 }
 
 export interface Sprint {

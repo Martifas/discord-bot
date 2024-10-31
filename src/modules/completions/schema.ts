@@ -17,6 +17,6 @@ export const parse = (record: unknown) => schema.parse(record)
 export const parseInsertable = (record: unknown) => insertable.parse(record)
 export const parseUpdatable = (record: unknown) => updatable.parse(record)
 
-export const keys: (keyof Completion)[] = Object.keys(
+export const completionKeys: (keyof Completion)[] = Object.keys(
   schema.shape
 ) as (keyof z.infer<typeof schema>)[]

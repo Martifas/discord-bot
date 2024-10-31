@@ -6,6 +6,8 @@ export async function up(db: Kysely<SqliteDatabase>) {
     .addColumn('message_id', 'integer', (c) =>
       c.primaryKey().notNull().references('completion.id').onDelete('cascade')
     )
+    .addColumn('sprint_code', 'text', (c) => c.notNull())
+    .addColumn('username', 'text', (c) => c.notNull())
     .addColumn('message', 'text', (c) => c.notNull())
     .execute()
 }
