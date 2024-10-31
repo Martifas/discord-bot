@@ -28,12 +28,14 @@ export default (db: Database) => {
         return codeHandlers.get(req, res, next)
       }
     })
+
     .post(
       jsonRoute(async (req) => {
         const body = schema.parseInsertable(req.body)
         return sprints.create(body)
       }, StatusCodes.CREATED)
     )
+
     .patch((req, res, next) => {
       if (req.query.id) {
         return idHandlers.patch(req, res, next)
@@ -43,6 +45,7 @@ export default (db: Database) => {
       }
       return unsupportedRoute(req, res, next)
     })
+
     .delete((req, res, next) => {
       if (req.query.id) {
         return idHandlers.delete(req, res, next)

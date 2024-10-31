@@ -1,36 +1,28 @@
 import 'dotenv/config'
-import type { Insertable } from 'kysely'
 import type { Completion, Database } from '@/database'
+import { RowInsert, RowSelect } from './types/completion.types'
 
-type Row = Completion
-type RowWithoutId = Omit<Row, 'id'>
-type RowInsert = Insertable<RowWithoutId>
-type CompletionResultRow = Omit<Completion, 'id'> & { id: number }
+const COMPLETION_TABLE = 'completion'
+const MESSAGE_TABLE = 'message'
 
 export default async (db: Database) => ({
-  async create(data: RowInsert): Promise<CompletionResultRow> {
+  async create(data: RowInsert): Promise<RowSelect | undefined> {
     const messageDb = `@${data.username} has completed the course!`
 
     return await db.transaction().execute(async (trx) => {
       const completion = await trx
-        .insertInto('completion')
-        .values({ sprintCode: data.sprintCode, username: data.username })
+        .insertInto(COMPLETION_TABLE)
+        .values(data)
         .returningAll()
         .executeTakeFirstOrThrow()
 
       await trx
-        .insertInto('message')
+        .insertInto(MESSAGE_TABLE)
         .values({ messageId: completion.id, message: messageDb })
         .returningAll()
         .executeTakeFirstOrThrow()
 
-      const response: CompletionResultRow = {
-        id: completion.id as number,
-        sprintCode: completion.sprintCode,
-        username: completion.username,
-      }
-
-      return response
+      return completion
     })
   },
 })

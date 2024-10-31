@@ -13,13 +13,14 @@ export default async (db: Database) => {
     try {
       const body = schema.parseInsertable(req.body)
       const result = await completions.create(body)
-      await sendMessage(result.username)
 
       if (!result) {
         return res.status(500).json({
           error: 'Failed to create',
         })
       }
+
+      await sendMessage(result.username)
 
       return res.status(201).json(result)
     } catch (error) {
