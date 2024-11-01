@@ -57,3 +57,17 @@ describe('parse sprintCode', () => {
     expect(() => parseSprintCode(invalidSprintCode)).toThrow(/Too short/i)
   })
 })
+describe('parse username', () => {
+  it('should accept correct format username', () => {
+    const validSprintCode = 'testukas'
+
+    expect(parseSprintCode(validSprintCode)).toBe(validSprintCode)
+  })
+  it('should not  accept wrong format username', () => {
+    const invalidSprintCode = 1
+
+    expect(() => parseSprintCode(invalidSprintCode)).toThrow(
+      /Expected string, received number/i
+    )
+  })
+})

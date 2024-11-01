@@ -11,6 +11,8 @@ const schema = z.object({
 const insertable = schema.omit({ messageId: true, message: true })
 
 export const parseId = (id: unknown) => schema.shape.messageId.parse(id)
+export const parseUsername = (username: unknown) =>
+  schema.shape.username.parse(username)
 export const parse = (record: unknown) => schema.parse(record)
 export const parseSprintCode = (sprintCode: unknown) =>
   schema.shape.sprintCode.parse(sprintCode)

@@ -27,7 +27,7 @@ export default async (db: Database) => {
       }, StatusCodes.CREATED)
     )
     .get((req, res, next) => {
-      if (!req.query.username && !req.query.sprintCode) {
+      if (!req.query.username && !req.query.code) {
         return jsonRoute(messages.findAll)(req, res, next)
       }
 
@@ -35,7 +35,7 @@ export default async (db: Database) => {
         return usernameHandler.get(req, res, next)
       }
 
-      if (req.query.sprintCode) {
+      if (req.query.code) {
         return codeHandler.get(req, res, next)
       }
     })

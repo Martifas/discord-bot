@@ -6,28 +6,26 @@ import { Request } from 'express'
 
 export const getCodeHandlers = (messages: MessageRepository) => ({
   get: jsonRoute(async (req: Request) => {
-    const sprintCode = schema
-      .parseSprintCode(req.query.sprintcode)
-      .toUpperCase()
+    const sprintCode = schema.parseSprintCode(req.query.code).toUpperCase()
     const record = await messages.findBy({ sprintCode })
 
     if (!record) {
       throw new MessageNotFound()
     }
 
-    return record
+    return [record]
   }),
 })
 
 export const getusernameHandlers = (messages: MessageRepository) => ({
   get: jsonRoute(async (req: Request) => {
-    const username = schema.parseSprintCode(req.query.username).toUpperCase()
+    const username = schema.parseUsername(req.query.username).toLowerCase()
     const record = await messages.findBy({ username })
 
     if (!record) {
       throw new MessageNotFound()
     }
 
-    return record
+    return [record]
   }),
 })
