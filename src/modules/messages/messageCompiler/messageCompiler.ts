@@ -1,6 +1,6 @@
 import { Database } from '@/database'
-import { TemplateNotFound } from '../templates/errors/errors'
-import { TemplateFailedFetch } from './errors/errors'
+import { TemplateNotFound } from '../../templates/errors/errors'
+import { TemplateFailedFetch } from '../errors/errors'
 
 export default async function compileMessage(
   db: Database,

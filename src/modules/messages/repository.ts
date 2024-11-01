@@ -3,7 +3,7 @@ import { RowInsert, RowSelect } from './types/messages.types'
 import { keys } from './schema'
 import { CourseNotFound, DuplicateRecordError } from './errors/errors'
 import { createResults, Params } from './types/messages-repository'
-import compileMessage from './messageCompiler'
+import compileMessage from './messageCompiler/messageCompiler'
 
 const MESSAGE_TABLE = 'message'
 
