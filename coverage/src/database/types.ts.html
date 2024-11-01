@@ -25,7 +25,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/34</span>
+                <span class='fraction'>0/35</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/34</span>
+                <span class='fraction'>0/35</span>
             </div>
         
             
@@ -97,7 +97,9 @@
 <a name='L32'></a><a href='#L32'>32</a>
 <a name='L33'></a><a href='#L33'>33</a>
 <a name='L34'></a><a href='#L34'>34</a>
-<a name='L35'></a><a href='#L35'>35</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
+<a name='L35'></a><a href='#L35'>35</a>
+<a name='L36'></a><a href='#L36'>36</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -136,34 +138,35 @@
 <span class="cstat-no" title="statement not covered" > * Please do not edit it manually.</span>
 <span class="cstat-no" title="statement not covered" > */</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >import type { ColumnType } from "kysely";</span>
+<span class="cstat-no" title="statement not covered" >import type { ColumnType } from 'kysely'</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >export type Generated&lt;T&gt; = T extends ColumnType&lt;infer S, infer I, infer U&gt;</span>
-<span class="cstat-no" title="statement not covered" >  ? ColumnType&lt;S, I | undefined, U&gt;</span>
-<span class="cstat-no" title="statement not covered" >  : ColumnType&lt;T, T | undefined, T&gt;;</span>
+<span class="cstat-no" title="statement not covered" >export type Generated&lt;T&gt; =</span>
+<span class="cstat-no" title="statement not covered" >  T extends ColumnType&lt;infer S, infer I, infer U&gt;</span>
+<span class="cstat-no" title="statement not covered" >    ? ColumnType&lt;S, I | undefined, U&gt;</span>
+<span class="cstat-no" title="statement not covered" >    : ColumnType&lt;T, T | undefined, T&gt;</span>
 <span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" >export interface Message {</span>
-<span class="cstat-no" title="statement not covered" >  message: string;</span>
-<span class="cstat-no" title="statement not covered" >  messageId: Generated&lt;number | null&gt;;</span>
-<span class="cstat-no" title="statement not covered" >  sprintCode: string;</span>
-<span class="cstat-no" title="statement not covered" >  username: string;</span>
+<span class="cstat-no" title="statement not covered" >  message: string</span>
+<span class="cstat-no" title="statement not covered" >  messageId: Generated&lt;number | null&gt;</span>
+<span class="cstat-no" title="statement not covered" >  sprintCode: string</span>
+<span class="cstat-no" title="statement not covered" >  username: string</span>
 <span class="cstat-no" title="statement not covered" >}</span>
 <span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" >export interface Sprint {</span>
-<span class="cstat-no" title="statement not covered" >  id: Generated&lt;number&gt;;</span>
-<span class="cstat-no" title="statement not covered" >  sprintCode: string;</span>
-<span class="cstat-no" title="statement not covered" >  title: string;</span>
+<span class="cstat-no" title="statement not covered" >  id: Generated&lt;number&gt;</span>
+<span class="cstat-no" title="statement not covered" >  sprintCode: string</span>
+<span class="cstat-no" title="statement not covered" >  title: string</span>
 <span class="cstat-no" title="statement not covered" >}</span>
 <span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" >export interface Template {</span>
-<span class="cstat-no" title="statement not covered" >  id: Generated&lt;number&gt;;</span>
-<span class="cstat-no" title="statement not covered" >  template: string;</span>
+<span class="cstat-no" title="statement not covered" >  id: Generated&lt;number&gt;</span>
+<span class="cstat-no" title="statement not covered" >  template: string</span>
 <span class="cstat-no" title="statement not covered" >}</span>
 <span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" >export interface DB {</span>
-<span class="cstat-no" title="statement not covered" >  message: Message;</span>
-<span class="cstat-no" title="statement not covered" >  sprint: Sprint;</span>
-<span class="cstat-no" title="statement not covered" >  template: Template;</span>
+<span class="cstat-no" title="statement not covered" >  message: Message</span>
+<span class="cstat-no" title="statement not covered" >  sprint: Sprint</span>
+<span class="cstat-no" title="statement not covered" >  template: Template</span>
 <span class="cstat-no" title="statement not covered" >}</span>
 &nbsp;</pre></td></tr></table></pre>
 
@@ -172,7 +175,7 @@
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2024-11-01T13:48:39.887Z
+                at 2024-11-01T19:10:18.369Z
             </div>
         <script src="../../prettify.js"></script>
         <script>
