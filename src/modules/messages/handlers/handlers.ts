@@ -4,28 +4,28 @@ import * as schema from '../schema'
 import { MessageNotFound } from '../errors/errors'
 import { Request } from 'express'
 
-export const getCodeHandlers = (messages: MessageRepository) => ({
+export const getSprintHandlers = (messages: MessageRepository) => ({
   get: jsonRoute(async (req: Request) => {
-    const sprintCode = schema.parseSprintCode(req.query.code).toUpperCase()
-    const record = await messages.findBy({ sprintCode })
+    const sprint = schema.parseSprintCode(req.query.sprint).toUpperCase()
+    const records = await messages.findBy({ sprint })
 
-    if (!record) {
+    if (records.length === 0) {
       throw new MessageNotFound()
     }
 
-    return [record]
+    return records
   }),
 })
 
 export const getusernameHandlers = (messages: MessageRepository) => ({
   get: jsonRoute(async (req: Request) => {
     const username = schema.parseUsername(req.query.username).toLowerCase()
-    const record = await messages.findBy({ username })
+    const records = await messages.findBy({ username })
 
-    if (!record) {
+    if (records.length === 0) {
       throw new MessageNotFound()
     }
 
-    return [record]
+    return records
   }),
 })

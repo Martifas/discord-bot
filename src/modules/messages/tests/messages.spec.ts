@@ -46,10 +46,10 @@ describe('GET', () => {
       ])
     })
   })
-  describe('?code=:sprintCode', () => {
+  describe('?sprint=:sprintCode', () => {
     it('should return 404 if message does not exist', async () => {
       const { body } = await supertest(app)
-        .get('/messages?code=WD-8.8')
+        .get('/messages?sprint=WD-8.8')
         .expect(404)
       expect(body.error.message).toMatch(/not found/i)
     })
@@ -57,7 +57,7 @@ describe('GET', () => {
     it('should return a message if it exists', async () => {
       const [template] = await createMessages([fakeMessage()])
       const { body } = await supertest(app)
-        .get(`/messages?id=${template.sprintCode}`)
+        .get(`/messages?sprint=${template.sprintCode}`)
         .expect(200)
 
       expect(body).toEqual([fakeMessage()])

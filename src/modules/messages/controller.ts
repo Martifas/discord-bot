@@ -5,13 +5,13 @@ import buildRepository from './repository'
 import { jsonRoute, unsupportedRoute } from '@/middleware'
 import sendMessage from '../bot/sendMessage'
 import { StatusCodes } from 'http-status-codes'
-import { getCodeHandlers, getusernameHandlers } from './handlers/handlers'
+import { getSprintHandlers, getusernameHandlers } from './handlers/handlers'
 
 export default async (db: Database) => {
   const router = Router()
   const messages = await buildRepository(db)
   const usernameHandler = getusernameHandlers(messages)
-  const codeHandler = getCodeHandlers(messages)
+  const codeHandler = getSprintHandlers(messages)
 
   router
     .route('/')
@@ -27,7 +27,7 @@ export default async (db: Database) => {
       }, StatusCodes.CREATED)
     )
     .get((req, res, next) => {
-      if (!req.query.username && !req.query.code) {
+      if (!req.query.username && !req.query.sprint) {
         return jsonRoute(messages.findAll)(req, res, next)
       }
 
@@ -35,7 +35,7 @@ export default async (db: Database) => {
         return usernameHandler.get(req, res, next)
       }
 
-      if (req.query.code) {
+      if (req.query.sprint) {
         return codeHandler.get(req, res, next)
       }
     })

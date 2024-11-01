@@ -49,14 +49,14 @@ export default async (db: Database) => ({
     return { result: record, message: messageDb }
   },
 
-  findBy(params: Params): Promise<RowSelect | undefined> {
+  findBy(params: Params): Promise<RowSelect[]> {
     let query = db.selectFrom(MESSAGE_TABLE).select(keys)
     if (params.username !== undefined) {
       query = query.where('username', '=', params.username)
     }
-    if (params.sprintCode !== undefined) {
-      query = query.where('sprintCode', '=', params.sprintCode)
+    if (params.sprint !== undefined) {
+      query = query.where('sprintCode', '=', params.sprint)
     }
-    return query.executeTakeFirst()
+    return query.execute()
   },
 })

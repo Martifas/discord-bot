@@ -3,12 +3,12 @@ import { RowInsert, RowSelect } from './messages.types'
 export type MessageRepository = {
   findAll(): Promise<RowSelect[]>
   create(record: RowInsert): Promise<createResults>
-  findBy(params: Params): Promise<RowSelect | undefined>
+  findBy(params: Params): Promise<RowSelect[]>
 }
 
 export type Params = {
   username?: string
-  sprintCode?: string
+  sprint?: string
 }
 
 export type createResults = {

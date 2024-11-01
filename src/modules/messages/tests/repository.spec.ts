@@ -152,56 +152,94 @@ describe('findBy', () => {
 
   it('should return messages by username', async () => {
     const messages = await repository.findBy({ username: 'user1' })
-    expect(messages).toBeDefined()
-    expect(messages).toEqual({
-      sprintCode: 'WD-7.7',
-      username: 'user1',
-      messageId: 1,
-      message: '@user1 has just completed Test Sprint!',
-    })
+    expect(messages).toHaveLength(2)
+    expect(messages).toEqual(
+      expect.arrayContaining([
+        {
+          sprintCode: 'WD-7.7',
+          username: 'user1',
+          messageId: 1,
+          message: '@user1 has just completed Test Sprint!',
+        },
+        {
+          sprintCode: 'WD-8.8',
+          username: 'user1',
+          messageId: 3,
+          message: '@user1 has just completed Another Sprint!',
+        },
+      ])
+    )
   })
 
   it('should return messages by sprintCode', async () => {
-    const messages = await repository.findBy({ sprintCode: 'WD-7.7' })
-    expect(messages).toBeDefined()
-    expect(messages).toEqual({
-      sprintCode: 'WD-7.7',
-      username: 'user1',
-      messageId: 1,
-      message: '@user1 has just completed Test Sprint!',
-    })
+    const messages = await repository.findBy({ sprint: 'WD-7.7' })
+    expect(messages).toHaveLength(2)
+    expect(messages).toEqual(
+      expect.arrayContaining([
+        {
+          sprintCode: 'WD-7.7',
+          username: 'user1',
+          messageId: 1,
+          message: '@user1 has just completed Test Sprint!',
+        },
+        {
+          sprintCode: 'WD-7.7',
+          username: 'user2',
+          messageId: 2,
+          message: '@user2 has just completed Test Sprint!',
+        },
+      ])
+    )
   })
 
   it('should return messages by both username and sprintCode', async () => {
     const messages = await repository.findBy({
       username: 'user1',
-      sprintCode: 'WD-7.7',
+      sprint: 'WD-7.7',
     })
-    expect(messages).toBeDefined()
-    expect(messages).toEqual({
-      sprintCode: 'WD-7.7',
-      username: 'user1',
-      messageId: 1,
-      message: '@user1 has just completed Test Sprint!',
-    })
+    expect(messages).toHaveLength(1)
+    expect(messages).toEqual([
+      {
+        sprintCode: 'WD-7.7',
+        username: 'user1',
+        messageId: 1,
+        message: '@user1 has just completed Test Sprint!',
+      },
+    ])
   })
 
-  it('should return undefined when no message matches the criteria', async () => {
+  it('should return empty array when no message matches the criteria', async () => {
     const messages = await repository.findBy({
       username: 'nonexistentuser',
-      sprintCode: 'WD-7.7',
+      sprint: 'WD-7.7',
     })
-    expect(messages).toBeUndefined()
+    expect(messages).toEqual([])
   })
 
-  it('should return undefined when no parameters are provided', async () => {
+  it('should return all messages when no parameters are provided', async () => {
     const messages = await repository.findBy({})
-    expect(messages).toBeDefined()
-    expect(messages).toEqual({
-      sprintCode: 'WD-7.7',
-      username: 'user1',
-      messageId: 1,
-      message: '@user1 has just completed Test Sprint!',
-    })
+    expect(messages).toHaveLength(3)
+    expect(messages).toEqual(
+      expect.arrayContaining([
+        {
+          sprintCode: 'WD-7.7',
+          username: 'user1',
+          messageId: 1,
+          message: '@user1 has just completed Test Sprint!',
+        },
+        {
+          sprintCode: 'WD-7.7',
+          username: 'user2',
+          messageId: 2,
+          message: '@user2 has just completed Test Sprint!',
+        },
+        {
+          sprintCode: 'WD-8.8',
+          username: 'user1',
+          messageId: 3,
+          message: '@user1 has just completed Another Sprint!',
+        },
+      ])
+    )
   })
 })
