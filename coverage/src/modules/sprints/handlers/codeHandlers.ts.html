@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">95.12% </span>
+                <span class="strong">94.73% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>39/41</span>
+                <span class='fraction'>36/38</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">95.12% </span>
+                <span class="strong">94.73% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>39/41</span>
+                <span class='fraction'>36/38</span>
             </div>
         
             
@@ -115,10 +115,7 @@
 <a name='L50'></a><a href='#L50'>50</a>
 <a name='L51'></a><a href='#L51'>51</a>
 <a name='L52'></a><a href='#L52'>52</a>
-<a name='L53'></a><a href='#L53'>53</a>
-<a name='L54'></a><a href='#L54'>54</a>
-<a name='L55'></a><a href='#L55'>55</a>
-<a name='L56'></a><a href='#L56'>56</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L53'></a><a href='#L53'>53</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -129,7 +126,7 @@
 <span class="cline-any cline-yes">10x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -138,9 +135,9 @@
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -150,9 +147,6 @@
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -161,8 +155,8 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -171,8 +165,8 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import * as schema from '../schema'
 import { Request } from 'express'
 import { jsonRoute } from '@/middleware'
@@ -186,7 +180,7 @@ const getSprintCode = (req: Request): string =&gt; {
 export const getSprintCodeHandlers = (sprints: SprintRepository) =&gt; ({
   get: jsonRoute(async (req: Request) =&gt; {
     const sprintCode = getSprintCode(req)
-    const record = await sprints.findByIdOrSprintCode({ sprintCode })
+    const record = await sprints.findBy({ sprintCode })
 &nbsp;
     if (!record) {
       throw new SprintNotFound()
@@ -197,7 +191,7 @@ export const getSprintCodeHandlers = (sprints: SprintRepository) =&gt; ({
 &nbsp;
   patch: jsonRoute(async (req: Request) =&gt; {
     const sprintCode = getSprintCode(req)
-    const existingSprint = await sprints.findByIdOrSprintCode({ sprintCode })
+    const existingSprint = await sprints.findBy({ sprintCode })
 &nbsp;
     if (!existingSprint) {
       throw new SprintNotFound()
@@ -206,10 +200,7 @@ export const getSprintCodeHandlers = (sprints: SprintRepository) =&gt; ({
       throw new CantUpdateSprint()
     }
     const bodyPatch = schema.parseUpdatable(req.body)
-    const record = await sprints.updateByIdOrSprintCode(
-      { sprintCode },
-      bodyPatch
-    )
+    const record = await sprints.updateBy({ sprintCode }, bodyPatch)
 &nbsp;
     if (!record) <span class="branch-0 cbranch-no" title="branch not covered" >{</span>
 <span class="cstat-no" title="statement not covered" >      throw new SprintNotFound()</span>
@@ -219,7 +210,7 @@ export const getSprintCodeHandlers = (sprints: SprintRepository) =&gt; ({
   }),
   delete: jsonRoute(async (req: Request) =&gt; {
     const sprintCode = getSprintCode(req)
-    const record = await sprints.removeByIdOrSprintCode({ sprintCode })
+    const record = await sprints.removeBy({ sprintCode })
 &nbsp;
     if (!record) {
       throw new SprintNotFound()
@@ -235,7 +226,7 @@ export const getSprintCodeHandlers = (sprints: SprintRepository) =&gt; ({
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2024-11-01T12:34:59.700Z
+                at 2024-11-01T13:48:39.887Z
             </div>
         <script src="../../../../prettify.js"></script>
         <script>

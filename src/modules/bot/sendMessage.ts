@@ -24,10 +24,7 @@ export default async (username: string, message: string) => {
     if (client) {
       const channel = await client.channels.fetch(GENERAL_CHANNEL)
       if (channel instanceof TextChannel) {
-        const formattedMessage = message.replace(
-          `@${username}`,
-          `<@${member.id}>`
-        )
+        const formattedMessage = message.replace(username, `<@${member.id}>`)
         await channel.send(formattedMessage)
       } else {
         throw new Error('Channel is not a text channel!')

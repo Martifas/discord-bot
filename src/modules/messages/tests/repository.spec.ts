@@ -7,13 +7,16 @@ import { CourseNotFound, DuplicateRecordError } from '../errors/errors'
 const db = await createTestDatabase()
 const repository = await buildRepository(db)
 const createMessages = createFor(db, 'message')
+const createSprints = createFor(db, 'sprint')
+const createTemplates = createFor(db, 'template')
 const selectMessages = selectAllFor(db, 'message')
 
 afterAll(() => db.destroy())
 
 afterEach(async () => {
   await db.deleteFrom('message').execute()
-  await db.deleteFrom('sprint').execute() // Also clear sprints after each test
+  await db.deleteFrom('sprint').execute()
+  await db.deleteFrom('template').execute()
 })
 
 describe('create', () => {
@@ -25,6 +28,13 @@ describe('create', () => {
         title: 'Test Sprint',
       })
       .execute()
+    await db
+      .insertInto('template')
+      .values({
+        template:
+          '🚀 Houston, we have success! {name} has conquered {sprintTitle} with flying colors!',
+      })
+      .execute()
     const response = await repository.create({
       sprintCode: 'WD-7.7',
       username: 'architektas',
@@ -34,32 +44,40 @@ describe('create', () => {
         sprintCode: 'WD-7.7',
         username: 'architektas',
         messageId: expect.any(Number),
-        message: '@architektas has just completed Test Sprint!',
+        message:
+          '🚀 Houston, we have success! architektas has conquered Test Sprint with flying colors!',
       },
-      message: '@architektas has just completed Test Sprint!',
+      message:
+        '🚀 Houston, we have success! architektas has conquered Test Sprint with flying colors!',
     })
     const messagesInDatabase = await selectMessages()
     expect(messagesInDatabase).toEqual([response.result])
   })
 
   it('should throw DuplicateRecordError when creating duplicate message', async () => {
-    await db
-      .insertInto('sprint')
-      .values({
-        sprintCode: 'WD-7.7',
-        title: 'Test Sprint',
-      })
-      .execute()
-
-    const messageData = {
+    await createSprints({
       sprintCode: 'WD-7.7',
-      username: 'architektas',
-    }
+      title: 'Test Sprint',
+    })
+    await createTemplates({
+      template:
+        '🚀 Houston, we have success! {name} has conquered {sprintTitle} with flying colors!',
+    })
+    await createMessages([
+      {
+        messageId: 1,
+        message: 'Test message',
+        sprintCode: 'WD-7.7',
+        username: 'architektas',
+      },
+    ])
 
-    await repository.create(messageData)
-    await expect(repository.create(messageData)).rejects.toThrow(
-      DuplicateRecordError
-    )
+    await expect(
+      repository.create({
+        sprintCode: 'WD-7.7',
+        username: 'architektas',
+      })
+    ).rejects.toThrow(DuplicateRecordError)
   })
 
   it('should throw CourseNotFound when sprint does not exist', async () => {

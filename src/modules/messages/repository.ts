@@ -3,6 +3,7 @@ import { RowInsert, RowSelect } from './types/messages.types'
 import { keys } from './schema'
 import { CourseNotFound, DuplicateRecordError } from './errors/errors'
 import { createResults, Params } from './types/messages-repository'
+import compileMessage from './messageCompiler'
 
 const MESSAGE_TABLE = 'message'
 
@@ -33,7 +34,7 @@ export default async (db: Database) => ({
       throw new CourseNotFound()
     }
 
-    const messageDb = `@${data.username} has just completed ${course?.title}!`
+    const messageDb = await compileMessage(db, data.username, course.title)
 
     const record = await db
       .insertInto(MESSAGE_TABLE)

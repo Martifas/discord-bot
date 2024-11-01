@@ -1,14 +1,14 @@
 import createApp from '@/app'
 import createTestDatabase from '@tests/utils/createTestDatabase'
-import { createFor, selectAllFor } from '@tests/utils/record'
+import { createFor } from '@tests/utils/record'
 import supertest from 'supertest'
 import { fakeMessage } from './utils'
-import { any, string } from 'zod'
 
 const db = await createTestDatabase()
 const app = await (async () => await createApp(db))()
 const createMessages = createFor(db, 'message')
-const selectMessages = selectAllFor(db, 'message')
+const createSprints = createFor(db, 'sprint')
+const createTemplates = createFor(db, 'template')
 
 afterEach(async () => {
   await db.deleteFrom('message').execute()
@@ -83,23 +83,26 @@ describe('GET', () => {
 })
 describe('POST', () => {
   it('should allow creating new message', async () => {
-    await db
-      .insertInto('sprint')
-      .values({
-        sprintCode: 'WD-1.2',
-        title: 'Test Sprint',
-      })
-      .execute()
+    await createSprints({
+      sprintCode: 'WD-7.7',
+      title: 'Test Sprint',
+    })
+    await createTemplates({
+      template:
+        '🚀 Houston, we have success! {name} has conquered {sprintTitle} with flying colors!',
+    })
+
     const { body } = await supertest(app)
       .post('/messages')
-      .send({ sprintCode: 'WD-1.2', username: 'testauskas' })
+      .send({ sprintCode: 'WD-7.7', username: 'testauskas' })
       .expect(201)
 
     expect(body).toEqual({
-      sprintCode: 'WD-1.2',
+      sprintCode: 'WD-7.7',
       username: 'testauskas',
       messageId: expect.any(Number),
-      message: expect.any(String),
+      message:
+        '🚀 Houston, we have success! testauskas has conquered Test Sprint with flying colors!',
     })
   })
 

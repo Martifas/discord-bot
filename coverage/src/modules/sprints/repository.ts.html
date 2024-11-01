@@ -25,7 +25,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>67/67</span>
+                <span class='fraction'>64/64</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>67/67</span>
+                <span class='fraction'>64/64</span>
             </div>
         
             
@@ -147,10 +147,7 @@
 <a name='L82'></a><a href='#L82'>82</a>
 <a name='L83'></a><a href='#L83'>83</a>
 <a name='L84'></a><a href='#L84'>84</a>
-<a name='L85'></a><a href='#L85'>85</a>
-<a name='L86'></a><a href='#L86'>86</a>
-<a name='L87'></a><a href='#L87'>87</a>
-<a name='L88'></a><a href='#L88'>88</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L85'></a><a href='#L85'>85</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -159,11 +156,11 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-yes">6x</span>
@@ -183,7 +180,7 @@
 <span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">13x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">13x</span>
@@ -196,10 +193,7 @@
 <span class="cline-any cline-yes">13x</span>
 <span class="cline-any cline-yes">13x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">9x</span>
-<span class="cline-any cline-yes">9x</span>
-<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">9x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -220,7 +214,7 @@
 <span class="cline-any cline-yes">7x</span>
 <span class="cline-any cline-yes">9x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">7x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">7x</span>
@@ -236,7 +230,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-yes">7x</span>
-<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import type { Database } from '@/database'
 import { keys } from './schema'
 import { Params } from './types/sprint-repository.types'
@@ -270,7 +264,7 @@ export default (db: Database) =&gt; ({
     return created
   },
 &nbsp;
-  findByIdOrSprintCode(params: Params): Promise&lt;RowSelect | undefined&gt; {
+  findBy(params: Params): Promise&lt;RowSelect | undefined&gt; {
     let query = db.selectFrom(TABLE).select(keys)
 &nbsp;
     if (params.id !== undefined) {
@@ -283,12 +277,9 @@ export default (db: Database) =&gt; ({
     return query.executeTakeFirst()
   },
 &nbsp;
-  updateByIdOrSprintCode(
-    params: Params,
-    partial: RowUpdate
-  ): Promise&lt;RowSelect | undefined&gt; {
+  updateBy(params: Params, partial: RowUpdate): Promise&lt;RowSelect | undefined&gt; {
     if (Object.keys(partial).length === 0) {
-      return this.findByIdOrSprintCode(params)
+      return this.findBy(params)
     }
 &nbsp;
     let query = db.updateTable(TABLE).set(partial).returning(keys)
@@ -307,7 +298,7 @@ export default (db: Database) =&gt; ({
     return query.executeTakeFirst()
   },
 &nbsp;
-  removeByIdOrSprintCode(params: Params) {
+  removeBy(params: Params) {
     let query = db.deleteFrom(TABLE).returning(keys)
 &nbsp;
     if (params.id !== undefined) {
@@ -331,7 +322,7 @@ export default (db: Database) =&gt; ({
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2024-11-01T12:34:59.700Z
+                at 2024-11-01T13:48:39.887Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>
