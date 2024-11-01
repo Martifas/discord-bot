@@ -31,7 +31,7 @@ export default (db: Database) => ({
     return created
   },
 
-  findByIdOrSprintCode(params: Params): Promise<RowSelect | undefined> {
+  findBy(params: Params): Promise<RowSelect | undefined> {
     let query = db.selectFrom(TABLE).select(keys)
 
     if (params.id !== undefined) {
@@ -44,12 +44,9 @@ export default (db: Database) => ({
     return query.executeTakeFirst()
   },
 
-  updateByIdOrSprintCode(
-    params: Params,
-    partial: RowUpdate
-  ): Promise<RowSelect | undefined> {
+  updateBy(params: Params, partial: RowUpdate): Promise<RowSelect | undefined> {
     if (Object.keys(partial).length === 0) {
-      return this.findByIdOrSprintCode(params)
+      return this.findBy(params)
     }
 
     let query = db.updateTable(TABLE).set(partial).returning(keys)
@@ -68,7 +65,7 @@ export default (db: Database) => ({
     return query.executeTakeFirst()
   },
 
-  removeByIdOrSprintCode(params: Params) {
+  removeBy(params: Params) {
     let query = db.deleteFrom(TABLE).returning(keys)
 
     if (params.id !== undefined) {

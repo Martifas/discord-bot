@@ -3,7 +3,7 @@
 <html lang="en">
 
 <head>
-    <title>Code coverage report for src/modules/completions/controller.ts</title>
+    <title>Code coverage report for src/modules/messages/controller.ts</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="../../../prettify.css" />
     <link rel="stylesheet" href="../../../base.css" />
@@ -19,20 +19,20 @@
 <body>
 <div class='wrapper'>
     <div class='pad1'>
-        <h1><a href="../../../index.html">All files</a> / <a href="index.html">src/modules/completions</a> controller.ts</h1>
+        <h1><a href="../../../index.html">All files</a> / <a href="index.html">src/modules/messages</a> controller.ts</h1>
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">51.35% </span>
+                <span class="strong">62.5% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>19/37</span>
+                <span class='fraction'>25/40</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">50% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>2/4</span>
+                <span class='fraction'>1/1</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">51.35% </span>
+                <span class="strong">62.5% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>19/37</span>
+                <span class='fraction'>25/40</span>
             </div>
         
             
@@ -111,93 +111,93 @@
 <a name='L46'></a><a href='#L46'>46</a>
 <a name='L47'></a><a href='#L47'>47</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { z } from 'zod'
-import { Router, Request } from 'express'
-import type { Database } from '@/database'
-import buildRepository from './repository'
-import sendMessage from '../bot/sendMessage'
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { Database } from '@/database'
+import { Router } from 'express'
 import * as schema from './schema'
+import buildRepository from './repository'
+import { jsonRoute, unsupportedRoute } from '@/middleware'
+import sendMessage from '../bot/sendMessage'
+import { StatusCodes } from 'http-status-codes'
+import { getCodeHandlers, getusernameHandlers } from './handlers/handlers'
 &nbsp;
 export default async (db: Database) =&gt; {
   const router = Router()
-  const completions = await buildRepository(db)
+  const messages = await buildRepository(db)
+  const usernameHandler = getusernameHandlers(messages)
+  const codeHandler = getCodeHandlers(messages)
 &nbsp;
-  router.post('/', async (req: Request, res: any): Promise&lt;any&gt; =&gt; {
-    try {
-      const body = schema.parseInsertable(req.body)
-      const result = await completions.create(body)
-      await sendMessage(result.username)
+  router
+    .route('/')
+    .post(
+      jsonRoute(async (req) =&gt; {
+<span class="cstat-no" title="statement not covered" >        const body = schema.parseInsertable(req.body)</span>
+<span class="cstat-no" title="statement not covered" >        const { result, message } = await messages.create(body)</span>
+<span class="cstat-no" title="statement not covered" >        if (result) {</span>
+<span class="cstat-no" title="statement not covered" >          await sendMessage(result.username, message)</span>
+<span class="cstat-no" title="statement not covered" >        }</span>
 &nbsp;
-      if (!result) <span class="branch-0 cbranch-no" title="branch not covered" >{</span>
-<span class="cstat-no" title="statement not covered" >        return res.status(500).json({</span>
-<span class="cstat-no" title="statement not covered" >          error: 'Failed to create',</span>
-<span class="cstat-no" title="statement not covered" >        })</span>
+<span class="cstat-no" title="statement not covered" >        return result</span>
+      }, StatusCodes.CREATED)
+    )
+    .get((req, res, next) =&gt; {
+<span class="cstat-no" title="statement not covered" >      if (!req.query.username &amp;&amp; !req.query.sprintCode) {</span>
+<span class="cstat-no" title="statement not covered" >        return jsonRoute(messages.findAll)(req, res, next)</span>
 <span class="cstat-no" title="statement not covered" >      }</span>
 &nbsp;
-      return res.status(201).json(result)
-<span class="branch-0 cbranch-no" title="branch not covered" >    } catch (error) {</span>
-<span class="cstat-no" title="statement not covered" >      console.error('Error creating completion:', error)</span>
-&nbsp;
-<span class="cstat-no" title="statement not covered" >      if (error instanceof z.ZodError) {</span>
-<span class="cstat-no" title="statement not covered" >        return res.status(400).json({</span>
-<span class="cstat-no" title="statement not covered" >          error: 'Validation error',</span>
-<span class="cstat-no" title="statement not covered" >          details: error.errors.map((err) =&gt; ({</span>
-<span class="cstat-no" title="statement not covered" >            field: err.path.join('.'),</span>
-<span class="cstat-no" title="statement not covered" >            message: err.message,</span>
-<span class="cstat-no" title="statement not covered" >          })),</span>
-<span class="cstat-no" title="statement not covered" >        })</span>
+<span class="cstat-no" title="statement not covered" >      if (req.query.username) {</span>
+<span class="cstat-no" title="statement not covered" >        return usernameHandler.get(req, res, next)</span>
 <span class="cstat-no" title="statement not covered" >      }</span>
 &nbsp;
-      // Handle other types of errors
-<span class="cstat-no" title="statement not covered" >      return res.status(500).json({</span>
-<span class="cstat-no" title="statement not covered" >        error: 'Failed to create completion',</span>
-<span class="cstat-no" title="statement not covered" >      })</span>
-<span class="cstat-no" title="statement not covered" >    }</span>
-  })
+<span class="cstat-no" title="statement not covered" >      if (req.query.sprintCode) {</span>
+<span class="cstat-no" title="statement not covered" >        return codeHandler.get(req, res, next)</span>
+<span class="cstat-no" title="statement not covered" >      }</span>
+    })
+    .patch(unsupportedRoute)
+    .delete(unsupportedRoute)
 &nbsp;
   return router
 }
@@ -208,7 +208,7 @@ export default async (db: Database) =&gt; {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2024-10-30T17:02:36.783Z
+                at 2024-11-01T12:34:59.700Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

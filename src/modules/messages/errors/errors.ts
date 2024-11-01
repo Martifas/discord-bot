@@ -13,3 +13,9 @@ export class MessageNotFound extends NotFound {
     super(message)
   }
 }
+
+export class CourseNotFound extends NotFound {
+  constructor(message = 'Course not found') {
+    super(message)
+  }
+}

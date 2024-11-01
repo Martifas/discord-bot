@@ -9,7 +9,7 @@ const repository = buildRepository(db)
 const createSprints = createFor(db, 'sprint')
 const selectSprints = selectAllFor(db, 'sprint')
 
-afterAll(() => db.destroy)
+afterAll(() => db.destroy())
 
 afterEach(async () => {
   await db.deleteFrom('sprint').execute()
@@ -77,7 +77,7 @@ describe('findById', () => {
   it('should return a sprint by id', async () => {
     const [sprint] = await createSprints(fakeSprint({ id: 101 }))
 
-    const foundSprint = await repository.findByIdOrSprintCode({
+    const foundSprint = await repository.findBy({
       id: sprint!.id,
     })
 
@@ -89,7 +89,7 @@ describe('update', () => {
   it('should update a sprint', async () => {
     const [sprint] = await createSprints(fakeSprint())
 
-    const updatedSprint = await repository.updateByIdOrSprintCode(
+    const updatedSprint = await repository.updateBy(
       { id: sprint.id },
       {
         title: 'Updated sprint',
@@ -103,16 +103,13 @@ describe('update', () => {
 
   it('should return the original sprint if no changes are made', async () => {
     const [sprint] = await createSprints(fakeSprint())
-    const updatedSprint = await repository.updateByIdOrSprintCode(
-      { id: sprint.id },
-      {}
-    )
+    const updatedSprint = await repository.updateBy({ id: sprint.id }, {})
 
     expect(updatedSprint).toMatchObject(sprintMatcher())
   })
 
   it('should return undefined if sprint is not found', async () => {
-    const updatedSprint = await repository.updateByIdOrSprintCode(
+    const updatedSprint = await repository.updateBy(
       { id: 999 },
       {
         title: 'Updated sprint',
@@ -124,7 +121,7 @@ describe('update', () => {
 
   it('should throw an error when sprintCode and id are both falsy', () => {
     expect(() => {
-      repository.updateByIdOrSprintCode(
+      repository.updateBy(
         { sprintCode: undefined, id: undefined },
         { title: 'some update data' }
       )
@@ -136,7 +133,7 @@ describe('remove', () => {
   it('should remove a sprint', async () => {
     const [sprint] = await createSprints(fakeSprint())
 
-    const removedSprint = await repository.removeByIdOrSprintCode({
+    const removedSprint = await repository.removeBy({
       id: sprint.id,
     })
 
@@ -144,14 +141,14 @@ describe('remove', () => {
   })
 
   it('should return undefined if article is not found', async () => {
-    const removedSprint = await repository.removeByIdOrSprintCode({ id: 999 })
+    const removedSprint = await repository.removeBy({ id: 999 })
 
     expect(removedSprint).toBeUndefined()
   })
 
   it('should throw an error when sprintCode and id are both falsy', () => {
     expect(() => {
-      repository.removeByIdOrSprintCode({
+      repository.removeBy({
         sprintCode: undefined,
         id: undefined,
       })

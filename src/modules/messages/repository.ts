@@ -1,7 +1,7 @@
 import { Database } from '@/database'
 import { RowInsert, RowSelect } from './types/messages.types'
 import { keys } from './schema'
-import { DuplicateRecordError } from './errors/errors'
+import { CourseNotFound, DuplicateRecordError } from './errors/errors'
 import { createResults, Params } from './types/messages-repository'
 
 const MESSAGE_TABLE = 'message'
@@ -28,6 +28,10 @@ export default async (db: Database) => ({
       .select('title')
       .where('sprintCode', '=', data.sprintCode)
       .executeTakeFirst()
+
+    if (!course) {
+      throw new CourseNotFound()
+    }
 
     const messageDb = `@${data.username} has just completed ${course?.title}!`
 

@@ -11,7 +11,7 @@ const getId = (req: Request): number => {
 export const getSprintIdHandlers = (sprints: SprintRepository) => ({
   get: jsonRoute(async (req: Request) => {
     const id = getId(req)
-    const record = await sprints.findByIdOrSprintCode({ id })
+    const record = await sprints.findBy({ id })
 
     if (!record) {
       throw new SprintNotFound()
@@ -23,7 +23,7 @@ export const getSprintIdHandlers = (sprints: SprintRepository) => ({
   patch: jsonRoute(async (req: Request) => {
     const id = getId(req)
     const bodyPatch = schema.parseUpdatable(req.body)
-    const record = await sprints.updateByIdOrSprintCode({ id }, bodyPatch)
+    const record = await sprints.updateBy({ id }, bodyPatch)
 
     if (!record) {
       throw new SprintNotFound()
@@ -34,7 +34,7 @@ export const getSprintIdHandlers = (sprints: SprintRepository) => ({
 
   delete: jsonRoute(async (req: Request) => {
     const id = getId(req)
-    const record = await sprints.removeByIdOrSprintCode({ id })
+    const record = await sprints.removeBy({ id })
 
     if (!record) {
       throw new SprintNotFound()

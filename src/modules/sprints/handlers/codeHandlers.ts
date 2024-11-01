@@ -11,7 +11,7 @@ const getSprintCode = (req: Request): string => {
 export const getSprintCodeHandlers = (sprints: SprintRepository) => ({
   get: jsonRoute(async (req: Request) => {
     const sprintCode = getSprintCode(req)
-    const record = await sprints.findByIdOrSprintCode({ sprintCode })
+    const record = await sprints.findBy({ sprintCode })
 
     if (!record) {
       throw new SprintNotFound()
@@ -22,7 +22,7 @@ export const getSprintCodeHandlers = (sprints: SprintRepository) => ({
 
   patch: jsonRoute(async (req: Request) => {
     const sprintCode = getSprintCode(req)
-    const existingSprint = await sprints.findByIdOrSprintCode({ sprintCode })
+    const existingSprint = await sprints.findBy({ sprintCode })
 
     if (!existingSprint) {
       throw new SprintNotFound()
@@ -31,10 +31,7 @@ export const getSprintCodeHandlers = (sprints: SprintRepository) => ({
       throw new CantUpdateSprint()
     }
     const bodyPatch = schema.parseUpdatable(req.body)
-    const record = await sprints.updateByIdOrSprintCode(
-      { sprintCode },
-      bodyPatch
-    )
+    const record = await sprints.updateBy({ sprintCode }, bodyPatch)
 
     if (!record) {
       throw new SprintNotFound()
@@ -44,7 +41,7 @@ export const getSprintCodeHandlers = (sprints: SprintRepository) => ({
   }),
   delete: jsonRoute(async (req: Request) => {
     const sprintCode = getSprintCode(req)
-    const record = await sprints.removeByIdOrSprintCode({ sprintCode })
+    const record = await sprints.removeBy({ sprintCode })
 
     if (!record) {
       throw new SprintNotFound()
