@@ -1,4 +1,6 @@
 import { Database } from '@/database'
+import { TemplateNotFound } from '../templates/errors/errors'
+import { TemplateFailedFetch } from './errors/errors'
 
 export default async function compileMessage(
   db: Database,
@@ -13,7 +15,7 @@ export default async function compileMessage(
 
     const count = Number(result?.count ?? 0)
     if (count === 0) {
-      throw new Error('No templates found in database')
+      throw new TemplateNotFound()
     }
 
     const randomId = Math.floor(Math.random() * count) + 1
@@ -25,7 +27,7 @@ export default async function compileMessage(
       .executeTakeFirst()
 
     if (!template) {
-      throw new Error('Failed to fetch template')
+      throw new TemplateFailedFetch()
     }
 
     return template.template
