@@ -1,4 +1,4 @@
-## Requirements ##
+## Requirements
 
 **The bot will need to:**
 
@@ -10,7 +10,6 @@
 - store the congratulatory message and valuable metadata in the database so that it can be retrieved later
 - on failure, inform the user that the congratulatory message could not be formed/sent/stored
 
-
 **REST API will need to support the following endpoints:**
 
 - POST /messages - send a congratulatory message to a user on Discord
@@ -19,3 +18,49 @@
 - GET /messages?sprint=WD-1.1 - get a list of all congratulatory messages for a specific sprint
 - CRUD /templates - POST/GET/PATCH/DELETE endpoints for managing congratulatory message templates
 - CRUD /sprints - POST/GET/PATCH/DELETE endpoints for managing sprints
+
+## Instructions
+
+**To initialize project:**
+
+```
+npm init
+```
+
+**To create databases:**
+
+```
+npm run migrate:latest
+```
+
+**To generate types (required):**
+
+```
+npm run gen:types
+```
+
+**To start server:**
+
+```
+npm run start
+```
+
+**Test can be run with:**
+
+```
+npm run test
+```
+
+## Endpoints
+
+**Supported endpoints:**
+Note: atleast 1 sprint and 1 template is required
+
+- POST /messages - send a congratulatory message to a user on Discord
+- GET /messages - get a list of all congratulatory messages
+- GET /messages?username=johdoe - get a list of all congratulatory messages for a specific user
+- GET /messages?sprint=WD-1.1 - get a list of all congratulatory messages for a specific sprint
+- CRUD /templates - POST/GET/PATCH/DELETE endpoints for managing congratulatory message templates
+- CRUD /sprints - POST/GET/PATCH/DELETE endpoints for managing sprints
+
+Movie tickets repo: https://github.com/Martifas/movie-tickets
