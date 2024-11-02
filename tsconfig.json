@@ -14,7 +14,7 @@
     "strict": true,
     "sourceMap": true,
 
-    "types": ["vitest/globals"],
+    "types": ["vitest/globals", "node"],
 
     "paths": {
       "@/*": ["./src/*"],

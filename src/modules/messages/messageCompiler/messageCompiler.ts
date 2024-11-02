@@ -1,6 +1,5 @@
 import { Database } from '@/database'
 import { TemplateNotFound } from '../../templates/errors/errors'
-import { TemplateFailedFetch } from '../errors/errors'
 
 export default async function compileMessage(
   db: Database,
@@ -27,14 +26,16 @@ export default async function compileMessage(
       .executeTakeFirst()
 
     if (!template) {
-      throw new TemplateFailedFetch()
+      throw new TemplateNotFound()
     }
 
     return template.template
       .replace(/{name}/g, username)
       .replace(/{sprintTitle}/g, course)
   } catch (error) {
-    console.error('Error fetching random template:', error)
-    throw error
+    if (error instanceof TemplateNotFound) {
+      throw error
+    }
+    throw new Error('An unexpected error occurred in compileMessage.')
   }
 }
