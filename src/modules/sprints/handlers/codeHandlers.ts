@@ -5,13 +5,13 @@ import { CantUpdateSprint, SprintNotFound } from '../errors/errors'
 import { SprintRepository } from '../types/sprint-repository.types'
 
 const getSprintCode = (req: Request): string => {
-  return schema.parseSprintCode(req.query.sprintcode).toUpperCase()
+  return schema.parseSprintCode(req.query.sprint).toUpperCase()
 }
 
 export const getSprintCodeHandlers = (sprints: SprintRepository) => ({
   get: jsonRoute(async (req: Request) => {
-    const sprintCode = getSprintCode(req)
-    const record = await sprints.findBy({ sprintCode })
+    const sprint = getSprintCode(req)
+    const record = await sprints.findBy({ sprint })
 
     if (!record) {
       throw new SprintNotFound()
@@ -21,8 +21,8 @@ export const getSprintCodeHandlers = (sprints: SprintRepository) => ({
   }),
 
   patch: jsonRoute(async (req: Request) => {
-    const sprintCode = getSprintCode(req)
-    const existingSprint = await sprints.findBy({ sprintCode })
+    const sprint = getSprintCode(req)
+    const existingSprint = await sprints.findBy({ sprint })
 
     if (!existingSprint) {
       throw new SprintNotFound()
@@ -31,7 +31,7 @@ export const getSprintCodeHandlers = (sprints: SprintRepository) => ({
       throw new CantUpdateSprint()
     }
     const bodyPatch = schema.parseUpdatable(req.body)
-    const record = await sprints.updateBy({ sprintCode }, bodyPatch)
+    const record = await sprints.updateBy({ sprint }, bodyPatch)
 
     if (!record) {
       throw new SprintNotFound()
@@ -40,8 +40,8 @@ export const getSprintCodeHandlers = (sprints: SprintRepository) => ({
     return record
   }),
   delete: jsonRoute(async (req: Request) => {
-    const sprintCode = getSprintCode(req)
-    const record = await sprints.removeBy({ sprintCode })
+    const sprint = getSprintCode(req)
+    const record = await sprints.removeBy({ sprint })
 
     if (!record) {
       throw new SprintNotFound()

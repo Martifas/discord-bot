@@ -10,5 +10,5 @@ export type SprintRepository = {
 
 export type Params = {
   id?: number
-  sprintCode?: string
+  sprint?: string
 }

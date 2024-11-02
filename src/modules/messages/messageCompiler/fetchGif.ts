@@ -6,13 +6,13 @@ export default async () => {
   if (!api_key) {
     throw new Error('GIPHY_API key is required in environment variables')
   }
-
   const gf = new GiphyFetch(api_key)
-
   try {
     const { data: gif } = await gf.random({
       tag: 'congratulations',
       type: 'gifs',
+      rating: 'g',
+      offset: Math.floor(Math.random() * 100),
     })
 
     return gif

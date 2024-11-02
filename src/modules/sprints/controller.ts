@@ -16,7 +16,7 @@ export default (db: Database) => {
   router
     .route('/')
     .get((req, res, next) => {
-      if (!req.query.id && !req.query.sprintcode) {
+      if (!req.query.id && !req.query.sprint) {
         return jsonRoute(sprints.findAll)(req, res, next)
       }
 
@@ -24,7 +24,7 @@ export default (db: Database) => {
         return idHandlers.get(req, res, next)
       }
 
-      if (req.query.sprintcode) {
+      if (req.query.sprint) {
         return codeHandlers.get(req, res, next)
       }
     })
@@ -40,7 +40,7 @@ export default (db: Database) => {
       if (req.query.id) {
         return idHandlers.patch(req, res, next)
       }
-      if (req.query.sprintcode) {
+      if (req.query.sprint) {
         return codeHandlers.patch(req, res, next)
       }
       return unsupportedRoute(req, res, next)
@@ -50,7 +50,7 @@ export default (db: Database) => {
       if (req.query.id) {
         return idHandlers.delete(req, res, next)
       }
-      if (req.query.sprintcode) {
+      if (req.query.sprint) {
         return codeHandlers.delete(req, res, next)
       }
       return unsupportedRoute(req, res, next)

@@ -86,10 +86,10 @@ describe('GET with query parameters', () => {
     })
   })
 
-  describe('?sprintcode=:sprintcode', () => {
+  describe('?sprint=:sprintcode', () => {
     it('should return 404 if sprint does not exist', async () => {
       const { body } = await supertest(app)
-        .get(`/sprints?sprintcode=WD-9.9`)
+        .get(`/sprints?sprint=WD-9.9`)
         .expect(404)
       expect(body.error.message).toMatch(/not found/i)
     })
@@ -97,7 +97,7 @@ describe('GET with query parameters', () => {
     it('should return a sprint if it exists', async () => {
       const [sprint] = await createSprints([fakeSprint()])
       const { body } = await supertest(app)
-        .get(`/sprints?sprintcode=${sprint.sprintCode}`)
+        .get(`/sprints?sprint=${sprint.sprintCode}`)
         .expect(200)
       expect(body).toEqual(sprintMatcher(fakeSprint()))
     })
@@ -143,17 +143,17 @@ describe('PATCH', () => {
       expect(body).toEqual(
         sprintMatcher({
           id,
-          sprintCode: 'Persisted!',
+          sprintCode: 'PERSISTED!',
           title: 'This too!',
         })
       )
     })
   })
 
-  describe('?sprintcode=:sprintcode', () => {
+  describe('?sprint=:sprintcode', () => {
     it('should return 404 if sprint does not exist', async () => {
       const { body } = await supertest(app)
-        .patch(`/sprints?sprintcode=${FAKE_SPRINT_CODE}`)
+        .patch(`/sprints?sprint=${FAKE_SPRINT_CODE}`)
         .send(fakeSprint())
         .expect(404)
       expect(body.error.message).toMatch(/not found/i)
@@ -162,7 +162,7 @@ describe('PATCH', () => {
     it('allows partial updates', async () => {
       await createSprints([fakeSprint()])
       const { body } = await supertest(app)
-        .patch(`/sprints?sprintcode=${FAKE_SPRINT_CODE}`)
+        .patch(`/sprints?sprint=${FAKE_SPRINT_CODE}`)
         .send({ title: 'Updated!' })
         .expect(200)
 
@@ -177,12 +177,12 @@ describe('PATCH', () => {
     it('persists changes', async () => {
       await createSprints([fakeSprint()])
       await supertest(app)
-        .patch(`/sprints?sprintcode=${FAKE_SPRINT_CODE}`)
+        .patch(`/sprints?sprint=${FAKE_SPRINT_CODE}`)
         .send({ title: 'It persists!' })
         .expect(200)
 
       const { body } = await supertest(app)
-        .get(`/sprints?sprintcode=${FAKE_SPRINT_CODE}`)
+        .get(`/sprints?sprint=${FAKE_SPRINT_CODE}`)
         .expect(200)
 
       expect(body).toEqual(
@@ -196,7 +196,7 @@ describe('PATCH', () => {
     it('should not allow updating sprint code itself', async () => {
       await createSprints([fakeSprint()])
       const { body } = await supertest(app)
-        .patch(`/sprints?sprintcode=${FAKE_SPRINT_CODE}`)
+        .patch(`/sprints?sprint=${FAKE_SPRINT_CODE}`)
         .send({ sprintCode: 'NEW-CODE' })
         .expect(400)
 
@@ -228,18 +228,18 @@ describe('DELETE', () => {
     it('should successfully delete an existing sprint', async () => {
       const [sprint] = await createSprints([fakeSprint()])
       const { body } = await supertest(app)
-        .delete(`/sprints?sprintcode=${sprint.sprintCode}`)
+        .delete(`/sprints?sprint=${sprint.sprintCode}`)
         .expect(200)
 
       expect(body).toEqual(sprintMatcher(FAKE_SPRINT))
       await supertest(app)
-        .get(`/sprints?sprintcode=${sprint.sprintCode}`)
+        .get(`/sprints?sprint=${sprint.sprintCode}`)
         .expect(404)
     })
 
     it('should return 404 if sprint does not exist', async () => {
       const { body } = await supertest(app)
-        .delete(`/sprints?sprintcode=${FAKE_SPRINT_CODE}`)
+        .delete(`/sprints?sprint=${FAKE_SPRINT_CODE}`)
         .expect(404)
       expect(body.error.message).toMatch(/not found/i)
     })
